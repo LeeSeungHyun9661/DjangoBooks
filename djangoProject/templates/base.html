@@ -1,0 +1,38 @@
+{% load static %}
+<html lang="ko">
+   <head>
+      <meta charset="utf-8" />
+      <!-- jquery와 ajax 설정 -->
+      <script
+         src="https://kit.fontawesome.com/f9a809ddea.js" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="http://code.jquery.com/jquery-latest.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+      <!-- 페이지 타이틀 설정 -->
+      <title>장고북스</title>
+      <!-- css 설정 -->
+      <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+      {% block style %}
+      <!-- 스타일 블록 -->
+      {% endblock %}
+   </head>
+   <body>
+      <!-- header 정의 -->
+      <header>
+         <!-- logo 정의 -->
+         <a class="logo" href="{% url 'main' %}" >
+               <!-- logo 이미지 및 이름 -->
+               DjangoBooks <img class="logo" src="{% static 'img/django.png' %}"></a>         
+         <!-- 네비게이션 바 정의 -->
+         <nav>
+            <span ><a class="menu" href="{% url 'djangoBooks:list' %}">도서목록</a></span>
+         </nav>
+      </header>
+      {% block content %}
+      <!-- 내용 -->
+      {% endblock %}
+      <footer>
+         <!-- footer 정의 -->      
+      </footer>
+   </body>
+</html>

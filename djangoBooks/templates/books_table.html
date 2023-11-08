@@ -1,0 +1,106 @@
+{% load static %}
+<div id="table">
+  	<!-- 도서 목록 출력 부분 -->
+    {% if books_list %} <!-- 매핑된 도서 리스트가 있는지, 있다면 내용이 있는지 확인 -->
+    <div class="row">
+        <div class="book-items">
+            {% for book in books_list %} <!-- 반복문을 통해 도서에 대한 내용 출력 -->
+             <div class="col-12 item">
+                {% if book.img_url %}
+                <img src="{{book.img_url}}">
+                {% else %}
+                <img src="{% static 'img/no_book_image.png' %}">
+                {% endif %}
+                <div class="metadata">
+                    <div class="title">
+                        {{book.title}} <!-- 각 반복문 대상의 요소 불러오기 -->
+                    </div>
+                    <table class="bibil">
+                        <tr>
+                            <th>저자</th>
+                            <td>{{book.author}}</td>
+                            <th>출판사</th>
+                            <td>{{book.publisher}}</td>
+                            <th>출판년도</th>
+                            <td>{{book.pub_date}}</td>
+                        </tr>
+                        <tr>
+                            <th>주제</th>
+                            <td>{{book.kdc_class_no}}</td>
+                            <th>ISBN</th>
+                            <td>{{book.isbn13}}</td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            {% endfor %} <!-- 중요한 점은 반복문의 끝에는 항상 이렇게 end를 넣어주어야 한다. -->
+        </div>
+    </div>
+  	<!-- 페이지네이션 부분 -->
+    <div class="row justify-content-center">
+        <div class="col-8 pagination">
+            <!-- 처음으로 버튼 -->
+            {% if books_list.has_previous %}
+            <a class="first_page"><i class="fa-solid fa-chevron-left"></i></a>
+            {% endif %}
+             <!-- 각 페이지 버튼 -->
+            {% for page in books_list.paginator.page_range %}
+                {% if page >= books_list.number|add:-5 and page <= books_list.number|add:5 %}
+                    {% if page == books_list.number%}
+                        <a class="now_page"><b>{{page}}</b></a>
+                    {%else%}
+                        <a class="now_page">{{page}}</a>
+                    {% endif %}                        
+                {% endif %}
+            {%endfor %}            
+            <!-- 마지막으로 버튼 -->   
+            {% if books_list.has_next %}
+            <a class="last_page" value={{books_list.paginator.num_pages}}><i class="fa-solid fa-chevron-right"></i></a>
+            {% endif %}         
+        </div>
+    </div>   
+	<!-- 도서 목록이 없는 경우 -->
+	{% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="no-result">
+                <p><b>{{search_input}}</b>도서가 없습니다</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+	<!-- Ajax 기능 구현 -->
+    <script>
+    // 각 페이지네이션 버튼 클릭에 따른 결과 전달
+    $('.first_page').click(function () {
+        num_pages = 1;
+        page_click();
+    })
+    $('.now_page').click(function () {
+        num_pages = parseInt($(this).text());
+        page_click();
+    })
+    $('.last_page').click(function () {
+        num_pages = parseInt($(this).attr("value"));
+        page_click();
+    })
+      //페이지 클릭 시 작동방식
+    function page_click() {
+        $.ajax({
+            type: "get", //GET 방식 사용
+            url: "{% url 'djangoBooks:list' %}", //djangoBooks의 list url을 불러옴
+            data: {
+                'page': num_pages //GET 방식에 페이지 번호를 넣어서 전송
+            },
+            success: function (data) { //전송 성공시에 전송받는 데이터를 table class에 변경을 추가
+                console.log(data)
+                $('#table').html(data);
+                window.scrollTo( 0, 0 );
+            }
+        })
+    }
+</script>
+```
