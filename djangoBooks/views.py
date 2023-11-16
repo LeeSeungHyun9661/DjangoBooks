@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import View
 from .models import *
 from django.core.paginator import Paginator
@@ -16,7 +16,7 @@ class books_list(View):
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             self.template_name = 'books_table.html'
 
-        paginator = Paginator(books, 5)
+        paginator = Paginator(books, 10)
         # 페이지 선택
         books_list = paginator.get_page(page)
         self.context = {"books_list":books_list}
@@ -27,11 +27,21 @@ class books_list(View):
 
 # 도서 상세 페이지
 class books_detail(View):
-    context = {}
-    template_name = 'books_detail.html'
+    context={}
+    template_name = 'books_detail_modal.html'
 
     def get(self,request): 
-        return render(request, self.template_name, self.context)
+        
+        # 도서 isbn13 받아오기
+        isbn13 = request.GET.get('isbn13', '') 
+        if Book.objects.filter(isbn13 = isbn13).exists(): 
+            book = Book.objects.get(isbn13 = isbn13) # 도서 객채 추가
+            self.context["book"] = book
+
+            return render(request, self.template_name ,self.context)
+        else:
+            # 도서를 찾을 수 없습니다!
+            return redirect("books:list")
 
     def post(self,request):
-        return render(request, self.template_name, self.context)
+        return redirect("books:list")
