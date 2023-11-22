@@ -33,15 +33,15 @@ class books_detail(View):
     def get(self,request): 
         
         # 도서 isbn13 받아오기
-        isbn13 = request.GET.get('isbn13', '') 
-        if Book.objects.filter(isbn13 = isbn13).exists(): 
-            book = Book.objects.get(isbn13 = isbn13) # 도서 객채 추가
+        SEQ_NO = request.GET.get('SEQ_NO', '') 
+        if Book.objects.filter(SEQ_NO = SEQ_NO).exists(): 
+            book = Book.objects.get(SEQ_NO = SEQ_NO) # 도서 객채 추가
             self.context["book"] = book
 
             return render(request, self.template_name ,self.context)
         else:
             # 도서를 찾을 수 없습니다!
-            return redirect("books:list")
+            return redirect("books:list"),
 
     def post(self,request):
         return redirect("books:list")

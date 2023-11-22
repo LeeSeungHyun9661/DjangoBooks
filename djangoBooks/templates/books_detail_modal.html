@@ -1,49 +1,46 @@
 {% load static %}
 <div class="modal-header">
-  <h5 class="modal-title" id="staticBackdropLabel">{{book.title}}</h5>
+  <h5 class="modal-title" id="staticBackdropLabel">{{book.TITLE_NM}}</h5>
 </div>
 
-<div class="modal-body">
-  {% if book.img_url %}
-    <img src="{{book.img_url}}">
-  {% else %}
-    <img src="{% static 'img/no_book_image.png' %}">
-  {% endif %}
-
-  <table class="bibil">
-    <tr>
-      <th>저자</th>
-      <td>{{book.author}}</td>
-      <th>출판사</th>
-      <td>{{book.publisher}}</td>
-      <th>출판년도</th>
-      <td>{{book.pub_date}}</td>
-    </tr>
-    <tr>
-      <th>주제</th>
-      <td>{{book.kdc_class_no}}</td>
-      <th>ISBN</th>
-      <td>{{book.isbn13}}</td>
-      <th></th>
-      <td></td>
-    </tr>
-  </table>
-
-  <div class="content-container">
-    <div class="content-title">
-      소개글
+<div class="modal-body" style="margin-top: -20px;">
+  <div class="hstack gap-3">
+    <img class="img-responsive modal-img-book" src=
+    {% if book.IMAGE_URL %}"{{book.IMAGE_URL}}"{%else %}"{% static 'img/no_book_image.png' %}"{% endif %}>
+    <div class="d-flex"><div class="vr"></div></div>  
+    <div class="p-2">
+      <ul class="list-group list-group-flush" style="height: 300px; margin-left: -10px;">
+        <li class="list-group-item">         
+          <h6 class="fw-medium text-capitalize" style="margin-bottom: -5px;"><strong>ISBN</strong><br>{{book.ISBN_THIRTEEN_NO}}</h6>
+        </li>
+        <li class="list-group-item">    
+          <h6 class="fw-medium text-capitalize" style="margin-bottom: -5px;"><strong>Authuer</strong><br>{{book.AUTHR_NM}}</h6>     
+        </li>
+        <li class="list-group-item">      
+          <h6 class="fw-medium text-capitalize" style="margin-bottom: -5px;"><strong>Publisher</strong><br>{{book.PUBLISHER_NM}}</h6>     
+        </li>
+        <li class="list-group-item">    
+          <h6 class="fw-medium text-capitalize" style="margin-bottom: -5px;"><strong>Publication year</strong><br>{{book.PBLICTE_DE}}</h6>     
+        </li>
+        <li class="list-group-item">         
+          <h6 class="fw-medium text-capitalize" style="margin-bottom: -5px;"><strong>Subject</strong><br>{{book.KDC_NM}}</h6>
+        </li>
+      </ul>
     </div>
-    <div class="content-desc">
-      {% if book.description %}
-        {{book.description}}
-      {% else %}
-        도서 설명이 없습니다.
-      {% endif %}
+  </div>
+
+  <div class="modal-content-container">
+    <h5 class="fw-medium"><strong>소개글</strong></h5>    
+        </div>
+        <div class="content-desc">
+          <p>{% if book.description %}{{book.description}}{% else %}도서 설명이 없습니다.{% endif %}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-  <button type="button" class="btn btn-primary">Understood</button>
+  {% comment %} <button type="button" class="btn btn-primary">Understood</button> {% endcomment %}
 </div>
