@@ -1,5 +1,56 @@
 {% load static %}
 <div id="table">
+  {% comment %} 검색 기능 {% endcomment %}
+  <div class="input-group mb-3" style="width: 700px;">
+    <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2" >
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+  </div>
+
+  {% comment %} 세부 설정 {% endcomment %}
+  <div class="d-flex justify-content-end mb-3" style="width:700px; height:50px">
+    <div class="p-2">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{perpage}}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item {% if perpage == 5 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="5">5</a></li>
+          <li><a class="dropdown-item {% if perpage == 10 %}disabled{% endif %}" data-perpage="10">10</a></li>
+          <li><a class="dropdown-item {% if perpage == 15 %}disabled{% endif %}" data-perpage="25">25</a></li>
+          <li><a class="dropdown-item {% if perpage == 20 %}disabled{% endif %}" data-perpage="50">50</a></li>
+        </ul>        
+      </div> 
+    </div>
+    
+    <div class="p-2">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {%if sort == 1 %}Relevence{% elif sort == 2 %}Newest{% elif sort == 3 %}Oldest{% elif sort == 4 %}A-Z{%endif%}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item{%if sort == 1%} disabled{%endif%}"  data-sort="1" data-perpage="{{perpage}}">Relevence</a></li>
+          <li><a class="dropdown-item{%if sort == 2%} disabled{%endif%}" data-sort="2" data-perpage="{{perpage}}">Newest</a></li>
+          <li><a class="dropdown-item{%if sort == 3%} disabled{%endif%}" data-sort="3" data-perpage="{{perpage}}">Oldest</a></li>
+          <li><a class="dropdown-item{%if sort == 4%} disabled{%endif%}" data-sort="4" data-perpage="{{perpage}}">A-Z</a></li>
+        </ul>
+      </div> 
+    </div>
+
+    <div class="p-2">
+      <div class="btn-group" role="group" aria-label="Small button group">
+        <button type="button" class="btn btn-outline-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewbox="0 0 16 16">
+            <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/>
+          </svg></button>
+        <button type="button" class="btn btn-outline-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-justify" viewbox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div> 
+
   <div class="container">
     <ul class="list-group">
       {% if books_list %}
@@ -14,8 +65,8 @@
               <br/>
             </p>
             <div class="btn-toolbar pull-right" role="toolbar" aria-label="">
-              <a href="#" class="btn btn-default m-1">Add to Bookshelf</a>
-              <a href="#" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="{% url 'djangoBooks:detail'%}?SEQ_NO={{book.SEQ_NO}}">More</a>
+              <a class="btn btn-default m-1">Add to Bookshelf</a>
+              <a class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="{% url 'djangoBooks:detail'%}?SEQ_NO={{book.SEQ_NO}}">More</a>
             </div>
           </li>
         {% endfor %}
@@ -72,47 +123,81 @@
       <div class="modal-content"></div>
     </div>
   </div>
+</div>
 
   <!-- Ajax 기능 구현 -->
-  <script>
-    $(document).on("click", ".btn-primary", function (e) {
-      e.preventDefault();
-      var url = $(this).data("url");
-      var $staticBackdrop = $("#staticBackdrop");
-      $(".modal-content", $staticBackdrop).load(url, function () {
-        $popup.modal("show");
-      });
+<script>
+  $(document).on("click", ".btn-primary", function (e) {
+    e.preventDefault();
+    var url = $(this).data("url");
+    var $staticBackdrop = $("#staticBackdrop");
+    $(".modal-content", $staticBackdrop).load(url, function () {
+      $popup.modal("show");
     });
+  });
 
-    //페이지네이션 버튼 클릭에 따른 결과 전달
-    $(".page-item").click(function () {
-      if ($(this).text().trim() == 'First') {
-        //첫 페이지인 경우 : 1
-        num_pages = 1;
-      } else if ($(this).text().trim() == 'Last') {
-        //마지막 페이지인 경우 : 페이지 끝번
-        num_pages = parseInt($(this).attr("value"));
-      } else {
-        //해당 페이지 : 페이지 번호
-        num_pages = parseInt($(this).text());
-      }
-      page_click();
-    }); //페이지 클릭 시 작동방식 : AJAX
+  //페이지네이션 버튼 클릭에 따른 결과 전달
+  $(".page-item").click(function () {
+    if ($(this).text().trim() == 'First') {
+      //첫 페이지인 경우 : 1
+      num_pages = 1;
+    } else if ($(this).text().trim() == 'Last') {
+      //마지막 페이지인 경우 : 페이지 끝번
+      num_pages = parseInt($(this).attr("value"));
+    } else {
+      //해당 페이지 : 페이지 번호
+      num_pages = parseInt($(this).text());
+    }
+    page_click();
+  }); //페이지 클릭 시 작동방식 : AJAX
 
-    function page_click() {
+  function page_click() {
+    $.ajax({
+      type: "get", //GET 방식 사용
+      url: "{% url 'djangoBooks:list' %}",
+      //djangoBooks의 list url을 불러옴
+      data: {
+        page: num_pages, //GET 방식에 페이지 번호를 넣어서 전송       
+        perpage: "{{perpage}}", //GET 방식에 페이지 번호를 넣어서 전송          
+        sort: "{{sort}}", //GET 방식에 페이지 번호를 넣어서 전송
+      },
+      success: function (data) {
+        $("#table").html(data);
+        //전송 성공시에 전송받는 데이터를 table class에 변경을 추가
+        window.scrollTo(0, 0);
+        // 스크롤을 위로 다시 올려준다.
+      },beforeSend: function () {    
+        $("#loading_background").show();
+        $("#loading_spinner").show();
+      },
+      complete: function () {
+        $("#loading_background").hide();
+        $("#loading_spinner").hide();
+      },
+    });
+  }
+  
+$(document).on("click", ".dropdown-item", function (e) {
+      e.preventDefault();
+      var sort = $(this).data("sort");
+      var perpage = $(this).data("perpage");
       $.ajax({
         type: "get", //GET 방식 사용
         url: "{% url 'djangoBooks:list' %}",
         //djangoBooks의 list url을 불러옴
-        data: {
-          page: num_pages, //GET 방식에 페이지 번호를 넣어서 전송
+        data: {       
+          perpage: perpage, //GET 방식에 페이지 번호를 넣어서 전송          
+          sort: sort, //GET 방식에 페이지 번호를 넣어서 전송
         },
         success: function (data) {
           $("#table").html(data);
-          //전송 성공시에 전송받는 데이터를 table class에 변경을 추가
           window.scrollTo(0, 0);
-          // 스크롤을 위로 다시 올려준다.
+        },
+        error : function (jqXHR, textStatus, errorThrown){
+          console.log(jqXHR);  //응답 메시지
+          console.log(textStatus); //"error"로 고정인듯함
+          console.log(errorThrown);
         }
       });
-    }
-  </script>
+    });
+</script>

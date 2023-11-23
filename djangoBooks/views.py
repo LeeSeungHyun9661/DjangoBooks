@@ -11,15 +11,27 @@ class books_list(View):
     def get(self,request):    
         books = Book.objects.all()
         page = int(request.GET.get('page', 1)) 
+        perpage = int(request.GET.get('perpage',10)) 
+        sort = int(request.GET.get('sort', 1)) 
 
         # ajax로 통신 : 페이지네이션 또는 검색
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             self.template_name = 'books_table.html'
-
-        paginator = Paginator(books, 10)
+            if sort == 1:
+                books = Book.objects.all()
+            elif sort == 2:
+                books = Book.objects.all().order_by('PBLICTE_DE') 
+            elif sort == 3:
+                books = Book.objects.all().order_by('-PBLICTE_DE') 
+            elif sort == 4:
+                books = Book.objects.all().order_by('TITLE_NM') 
+            else :
+                books = Book.objects.all()
+                
+        paginator = Paginator(books, perpage)
         # 페이지 선택
         books_list = paginator.get_page(page)
-        self.context = {"books_list":books_list}
+        self.context = {"books_list":books_list,"perpage":perpage,"sort":sort}
         return render(request, self.template_name, self.context)
     
     def post(self,request):
