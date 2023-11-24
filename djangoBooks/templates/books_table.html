@@ -1,13 +1,19 @@
 {% load static %}
 <div id="table">
-  {% comment %} 검색 기능 {% endcomment %}
-  <div class="input-group mb-3" style="width: 700px;">
-    <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2" >
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-  </div>
 
-  {% comment %} 세부 설정 {% endcomment %}
-  <div class="d-flex justify-content-end mb-3" style="width:700px; height:50px">
+  <!-- 검색바 -->
+
+
+  <!-- 리스트 옵션 -->
+  <div class="d-flex justify-content-center mb-3" style="width:700px; height:50px">
+    <div class="p-2">
+      <div class="input-group mb-3" style="width: 340px;">
+        <input type="text" class="form-control" id="search_input" placeholder="{%if search_input %}{{search_input}}{%endif%}" aria-label="Recipient's username" aria-describedby="button-search" >
+        <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+      </div>
+    </div>
+
+    <!-- 리스트 옵션 : 페이지 아이템 갯수 -->
     <div class="p-2">
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -15,27 +21,28 @@
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item {% if perpage == 5 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="5">5</a></li>
-          <li><a class="dropdown-item {% if perpage == 10 %}disabled{% endif %}" data-perpage="10">10</a></li>
-          <li><a class="dropdown-item {% if perpage == 15 %}disabled{% endif %}" data-perpage="25">25</a></li>
-          <li><a class="dropdown-item {% if perpage == 20 %}disabled{% endif %}" data-perpage="50">50</a></li>
+          <li><a class="dropdown-item {% if perpage == 10 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="10">10</a></li>
+          <li><a class="dropdown-item {% if perpage == 15 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="25">25</a></li>
+          <li><a class="dropdown-item {% if perpage == 20 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="50">50</a></li>
         </ul>        
       </div> 
-    </div>
-    
+    </div>    
+
+    <!-- 리스트 옵션 : 리스트 정렬 기준 -->
     <div class="p-2">
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {%if sort == 1 %}Relevence{% elif sort == 2 %}Newest{% elif sort == 3 %}Oldest{% elif sort == 4 %}A-Z{%endif%}
+          {%if sort == 0 %}Sort by{% elif sort == 1 %}Relevence{% elif sort == 2 %}Newest{% elif sort == 3 %}Oldest{% elif sort == 4 %}A-Z{%endif%}
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item{%if sort == 1%} disabled{%endif%}"  data-sort="1" data-perpage="{{perpage}}">Relevence</a></li>
-          <li><a class="dropdown-item{%if sort == 2%} disabled{%endif%}" data-sort="2" data-perpage="{{perpage}}">Newest</a></li>
-          <li><a class="dropdown-item{%if sort == 3%} disabled{%endif%}" data-sort="3" data-perpage="{{perpage}}">Oldest</a></li>
-          <li><a class="dropdown-item{%if sort == 4%} disabled{%endif%}" data-sort="4" data-perpage="{{perpage}}">A-Z</a></li>
+          <li><a class="dropdown-item{%if sort == 1 %} disabled{% endif %}"  data-sort="1" data-perpage="{{perpage}}">Relevence</a></li>
+          <li><a class="dropdown-item{%if sort == 2 %} disabled{% endif %}" data-sort="2" data-perpage="{{perpage}}">Newest</a></li>
+          <li><a class="dropdown-item{%if sort == 3 %} disabled{% endif %}" data-sort="3" data-perpage="{{perpage}}">Oldest</a></li>
+          <li><a class="dropdown-item{%if sort == 4 %} disabled{% endif %}" data-sort="4" data-perpage="{{perpage}}">A-Z</a></li>
         </ul>
       </div> 
     </div>
-
+    <!-- 리스트 옵션 : 리스트 아이템 모양 -->
     <div class="p-2">
       <div class="btn-group" role="group" aria-label="Small button group">
         <button type="button" class="btn btn-outline-secondary">
@@ -51,9 +58,11 @@
     </div>
   </div> 
 
-  <div class="container">
+  <!-- 리스트 아이템 -->
+  <div class="container" style="max-width:700px;">
     <ul class="list-group">
       {% if books_list %}
+        <!-- 리스트 아이템 -->
         {% for book in books_list %}
           <li class="list-group-item clearfix ">            
               <img class="img-responsive img-book" src="{% if book.IMAGE_URL %}{{book.IMAGE_URL}}{% else %}{% static 'img/no_book_image.png' %}{% endif %}" alt=""/>
@@ -71,7 +80,7 @@
           </li>
         {% endfor %}
 
-        <!-- START Pagination -->
+        <!-- 페이지네이션 -->
         <div class="text-center mt-3 mt-sm-3">
           <ul class="pagination justify-content-center mb-3">
             {% if books_list.has_previous %}
@@ -118,6 +127,7 @@
     </div>
   </div>
 
+  <!-- 모달 -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content"></div>
@@ -125,12 +135,26 @@
   </div>
 </div>
 
-  <!-- Ajax 기능 구현 -->
+<!-- Ajax 기능 구현 -->
 <script>
+  $(document).on("click", "#button-search", function (e) {
+
+    e.preventDefault();
+    url = "{% url 'djangoBooks:list' %}";
+    data = {
+      perpage: "{{perpage}}",   
+      sort: "{{sort}}", 
+      search_input: $('#search_input').val(),
+    };
+    ajax_get(url,data);
+  });
+
   $(document).on("click", ".btn-primary", function (e) {
     e.preventDefault();
     var url = $(this).data("url");
     var $staticBackdrop = $("#staticBackdrop");
+    var search_input = $(this).data("input");
+
     $(".modal-content", $staticBackdrop).load(url, function () {
       $popup.modal("show");
     });
@@ -148,27 +172,42 @@
       //해당 페이지 : 페이지 번호
       num_pages = parseInt($(this).text());
     }
-    page_click();
-  }); //페이지 클릭 시 작동방식 : AJAX
 
-  function page_click() {
+    url ="{% url 'djangoBooks:list' %}";
+    data = {
+      page: num_pages,
+      perpage: "{{perpage}}",   
+      sort: "{{sort}}", 
+      search_input: "{{search_input}}",
+    };
+    ajax_get(url,data);
+  });
+  
+  $(document).on("click", ".dropdown-item", function (e) {
+    e.preventDefault();
+    url = "{% url 'djangoBooks:list' %}";
+    data ={       
+      perpage: $(this).data("perpage"), //GET 방식에 페이지 번호를 넣어서 전송          
+      sort: $(this).data("sort"), //GET 방식에 페이지 번호를 넣어서 전송
+      search_input: "{{search_input}}",
+    };
+    ajax_get(url,data);
+  });
+
+  function ajax_get(url,data){
     $.ajax({
       type: "get", //GET 방식 사용
-      url: "{% url 'djangoBooks:list' %}",
+      url: url,
       //djangoBooks의 list url을 불러옴
-      data: {
-        page: num_pages, //GET 방식에 페이지 번호를 넣어서 전송       
-        perpage: "{{perpage}}", //GET 방식에 페이지 번호를 넣어서 전송          
-        sort: "{{sort}}", //GET 방식에 페이지 번호를 넣어서 전송
-      },
+      data: data,
       success: function (data) {
         $("#table").html(data);
-        //전송 성공시에 전송받는 데이터를 table class에 변경을 추가
-        window.scrollTo(0, 0);
-        // 스크롤을 위로 다시 올려준다.
+      },
+      error : function (jqXHR, textStatus, errorThrown){
       },beforeSend: function () {    
         $("#loading_background").show();
-        $("#loading_spinner").show();
+        $("#loading_spinner").show();        
+        window.scrollTo(0, 0);
       },
       complete: function () {
         $("#loading_background").hide();
@@ -176,28 +215,4 @@
       },
     });
   }
-  
-$(document).on("click", ".dropdown-item", function (e) {
-      e.preventDefault();
-      var sort = $(this).data("sort");
-      var perpage = $(this).data("perpage");
-      $.ajax({
-        type: "get", //GET 방식 사용
-        url: "{% url 'djangoBooks:list' %}",
-        //djangoBooks의 list url을 불러옴
-        data: {       
-          perpage: perpage, //GET 방식에 페이지 번호를 넣어서 전송          
-          sort: sort, //GET 방식에 페이지 번호를 넣어서 전송
-        },
-        success: function (data) {
-          $("#table").html(data);
-          window.scrollTo(0, 0);
-        },
-        error : function (jqXHR, textStatus, errorThrown){
-          console.log(jqXHR);  //응답 메시지
-          console.log(textStatus); //"error"로 고정인듯함
-          console.log(errorThrown);
-        }
-      });
-    });
 </script>

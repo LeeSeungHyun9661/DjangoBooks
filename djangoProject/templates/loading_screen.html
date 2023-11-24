@@ -3,3 +3,15 @@
   <span class="visually-hidden">Loading...</span>
 </div>
 
+<script>
+  $(window).load(function(){
+    $("#loading_background").hide();
+    $("#loading_spinner").hide();
+  });
+
+  $(document).ready(function(){
+    $("#loading_background").show();
+    $("#loading_spinner").show();
+  });
+</script>
+

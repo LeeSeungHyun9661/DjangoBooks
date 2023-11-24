@@ -21,9 +21,12 @@
     <!-- 내비게이션 바 -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div class="container-fluid">
+        <!-- 로고 -->
         <a class="navbar-brand" href="{% url 'main' %}">
            <img src="{% static 'img/django.png' %}" alt="Logo" width="80" height="30" class="d-inline-block align-text-top">
-           DjangoBooks</a>
+           DjangoBooks
+        </a>
+        <!-- 내비게이션 메뉴-->        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,9 +45,11 @@
   <body style="margin-top: 60px; padding: 15px;">
     <!-- 내용 -->
     {% block content %}{% endblock %}
+    <!-- 로딩 화면 -->
     {% include 'loading_screen.html' %}
 
-<footer></footer>
+  <footer></footer>
+    <!-- bootstrap / css -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>

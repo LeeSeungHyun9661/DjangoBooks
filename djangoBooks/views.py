@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.views.generic import View
 from .models import *
 from django.core.paginator import Paginator
+from django.db.models import Q
+import datetime
 
 # Create your views here.
 class books_list(View):
@@ -12,26 +14,30 @@ class books_list(View):
         books = Book.objects.all()
         page = int(request.GET.get('page', 1)) 
         perpage = int(request.GET.get('perpage',10)) 
-        sort = int(request.GET.get('sort', 1)) 
+        sort = int(request.GET.get('sort', 0)) 
+        search_input = request.GET.get('search_input',"")
 
         # ajax로 통신 : 페이지네이션 또는 검색
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
             self.template_name = 'books_table.html'
-            if sort == 1:
-                books = Book.objects.all()
-            elif sort == 2:
-                books = Book.objects.all().order_by('PBLICTE_DE') 
-            elif sort == 3:
-                books = Book.objects.all().order_by('-PBLICTE_DE') 
-            elif sort == 4:
-                books = Book.objects.all().order_by('TITLE_NM') 
+            if search_input != "":
+                books = Book.objects.filter( Q(TITLE_NM__icontains = search_input) | Q(AUTHR_NM__icontains = search_input) | Q(PUBLISHER_NM__icontains = search_input));
             else :
-                books = Book.objects.all()
-                
-        paginator = Paginator(books, perpage)
-        # 페이지 선택
+                books =  Book.objects.all()              
+            if sort == 0:
+                books = books
+            elif sort == 1:
+                books = books 
+            elif sort == 2:
+                books = books.order_by('PBLICTE_DE') 
+            elif sort == 3:
+                books = books.order_by('-PBLICTE_DE') 
+            else :
+                books = books.order_by('TITLE_NM') 
+        # 페이지 선택                
+        paginator = Paginator(books, perpage)        
         books_list = paginator.get_page(page)
-        self.context = {"books_list":books_list,"perpage":perpage,"sort":sort}
+        self.context = {"books_list":books_list,"perpage":perpage,"sort":sort,"search_input":search_input}
         return render(request, self.template_name, self.context)
     
     def post(self,request):
