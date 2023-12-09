@@ -1,11 +1,9 @@
 {% load static %}
 <div id="table">
-
-  <!-- 검색바 -->
-
-
-  <!-- 리스트 옵션 -->
+  
   <div class="d-flex justify-content-center mb-3" style="width:700px; height:50px">
+
+    <!-- 리스트 옵션 : 검색바 -->
     <div class="p-2">
       <div class="input-group mb-3" style="width: 340px;">
         <input type="text" class="form-control" id="search_input" placeholder="{%if search_input %}{{search_input}}{%endif%}" aria-label="Recipient's username" aria-describedby="button-search" >
@@ -58,10 +56,9 @@
     </div>
   </div> 
 
-  <!-- 리스트 아이템 -->
-  <div class="container" style="max-width:700px;">
-    <ul class="list-group">
-      {% if books_list %}
+  <!-- 도서 리스트 -->
+    <div class="container" style="max-width:700px;">
+      <ul class="list-group">
         <!-- 리스트 아이템 -->
         {% for book in books_list %}
           <li class="list-group-item clearfix ">            
@@ -83,47 +80,37 @@
         <!-- 페이지네이션 -->
         <div class="text-center mt-3 mt-sm-3">
           <ul class="pagination justify-content-center mb-3">
+            <!-- 페이지네이션 : 첫 페이지-->
             {% if books_list.has_previous %}
               <li class="page-item">
               {% else %}
-                <li class="page-item disabled">
-                {% endif %}
+              <li class="page-item disabled">
+              {% endif %}
                 <a class="page-link" href="#">First</a>
               </li>
-              {% for page in books_list.paginator.page_range %}
-                {% if page >= books_list.number|add:-2 and page <= books_list.number|add:2 %}
-                  {% if page == books_list.number%}
-                    <li class="page-item d-none d-md-inline-block">
-                      <a class="page-link active" href="#">{{page}}</a>
-                    </li>
-                    {%else%}
-                    <li class="page-item">
-                      <a class="page-link" href="#">{{page}}</a>
-                    </li>
-                  {% endif %}
-                {% endif %}
-              {%endfor %}
-              {% if books_list.has_next %}
-                <li class="page-item" value="{{books_list.paginator.num_pages}}">
-                {% else %}
-                  <li class="page-item disabled">
-                  {% endif %}
-                  <a class="page-link" href="#">Last</a>
+            <!-- 페이지네이션 : 각 페이지 -->
+            {% for page in page_range %}
+              {% if page == books_list.number%}
+                <li class="page-item d-none d-md-inline-block">
+                  <a class="page-link active" href="#">{{page}}</a>
                 </li>
-              </ul>
-            </div>
-            <!-- END Pagination -->
-          {% else %}
-            <div class="row">
-              <div class="col-12">
-                <div class="no-result">
-                  <p>
-                    <b>{{search_input}}</b>도서가 없습니다</p>
-                </div>
-              </div>
-            </div>
-          {% endif %}
-      </ul>
+                {%else%}
+                <li class="page-item">
+                  <a class="page-link" href="#">{{page}}</a>
+                </li>
+              {% endif %}
+            {%endfor %}
+            <!-- 페이지네이션 : 마지막 페이지 -->
+            {% if books_list.has_next %}
+              <li class="page-item" value="{{books_list.paginator.num_pages}}">
+            {% else %}
+              <li class="page-item disabled">
+              {% endif %}
+                <a class="page-link" href="#">Last</a>
+              </li>
+          </ul>
+        </div>
+      </ul> 
     </div>
   </div>
 
@@ -138,7 +125,6 @@
 <!-- Ajax 기능 구현 -->
 <script>
   $(document).on("click", "#button-search", function (e) {
-
     e.preventDefault();
     url = "{% url 'djangoBooks:list' %}";
     data = {

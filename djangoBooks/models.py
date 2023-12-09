@@ -22,3 +22,4 @@ class Book(models.Model):
 
     class Meta:
         db_table = u'books'
+        ordering = ['-SEQ_NO']
