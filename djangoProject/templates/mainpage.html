@@ -2,53 +2,59 @@
 {% block content %}
 {% load static %}
   {% comment %} 도서 종류별 메뉴 {% endcomment %}
+  
+<hr>
 <div class="mainpage">
-  <div class="books-menu p-1">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-      {% comment %} 도서 종류 아이템 {% endcomment %}
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Book" aria-expanded="false" aria-controls="flush-collapse-Book">
-            Book
-          </button>
-        </h2>
-        <div id="flush-collapse-Book" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body p-0">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">An item</li>
-              <li class="list-group-item">A second item</li>
-              <li class="list-group-item">A third item</li>
-              <li class="list-group-item">A fourth item</li>
-              <li class="list-group-item">And a fifth one</li>
-            </ul>            
+  <div class="d-flex" style="height: auto">
+    <div class="books-menu p-1">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        {% comment %} 도서 종류 아이템 - Book {% endcomment %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Book" aria-expanded="false" aria-controls="flush-collapse-Book">
+              Book
+            </button>
+          </h2>
+          <div id="flush-collapse-Book" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+              </ul>            
+            </div>
+          </div>
+        </div>
+        {% comment %} 도서 종류 아이템 - E-Book{% endcomment %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Ebook" aria-expanded="false" aria-controls="flush-collapse-Ebook">
+              E-Book
+            </button>
+          </h2>
+          <div id="flush-collapse-Ebook" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+              </ul>             
+            </div>
           </div>
         </div>
       </div>
-
-      {% comment %} 도서 종류 아이템 {% endcomment %}
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Ebook" aria-expanded="false" aria-controls="flush-collapse-Ebook">
-            E-Book
-          </button>
-        </h2>
-        <div id="flush-collapse-Ebook" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body p-0">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">An item</li>
-              <li class="list-group-item">A second item</li>
-              <li class="list-group-item">A third item</li>
-              <li class="list-group-item">A fourth item</li>
-              <li class="list-group-item">And a fifth one</li>
-            </ul>             
-          </div>
-        </div>
-      </div>
-      
     </div>
+    <div class="vr"></div>
   </div>
-  {% comment %} 도서 할인 광고 {% endcomment %}
+  
+  
+  
   <div class="main p-3">
+    {% comment %} 도서 할인 광고 {% endcomment %}
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -76,12 +82,46 @@
       </button>
     </div>
     <hr>
+    {% comment %} 새롭게 출시된 책 {% endcomment %}
+    <div class="carousel-wheel">
+      <div id="carousel">
+        <ul class="flip-items">
+          <li>
+              <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
+          </li>
+          <li >
+            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
+            </li>
+          <li>
+            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
+          </li>
+          <li>
+            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
+          </li>
+          <li>
+            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
+          </li>
+        </ul>
+      </div>
+      <script>
+        var carousel = $("#carousel").flipster({
+            style: 'carousel',
+            spacing: -0.5,
+            nav: true,
+            buttons:   true,
+        });
+      </script>
+    </div>   
+
+    
+    <hr>
+    {% comment %} 베스트 셀러 {% endcomment %}
+    <hr>
+    {% comment %} 추천 도서 {% endcomment %}
   </div>
-  {% comment %} 새롭게 출시된 책 {% endcomment %}
+  
 
-  {% comment %} 베스트 셀러 {% endcomment %}
 
-  {% comment %} 추천 도서 {% endcomment %}
 </div>
   
 {% endblock %}
