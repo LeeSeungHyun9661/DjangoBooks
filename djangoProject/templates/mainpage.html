@@ -53,7 +53,7 @@
   
   
   
-  <div class="main p-3">
+  <div class="main">
     {% comment %} 도서 할인 광고 {% endcomment %}
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -83,35 +83,58 @@
     </div>
     <hr>
     {% comment %} 새롭게 출시된 책 {% endcomment %}
-    <div class="carousel-wheel">
-      <div id="carousel">
-        <ul class="flip-items">
-          <li>
-              <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
-          </li>
-          <li >
-            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
-            </li>
-          <li>
-            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
-          </li>
-          <li>
-            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
-          </li>
-          <li>
-            <img src="{% static 'img/no_book_image.png' %}" style="width:100px;">
-          </li>
-        </ul>
+
+    <h3 class="new-release-title">New Release</h3>    
+    <div class="row">
+      <div class="col-7 p-0">
+        <div class="carousel-wheel">
+          <div id="carousel">
+            <ul class="flip-items">
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15001"></li>
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15002"></li>
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15003"></li>
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15004"></li>
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15005"></li>              
+              <li><img src="{% static 'img/book-img.jpg' %}" value="15006"></li>
+            </ul>
+          </div>
+          <script>
+            $(document).ready(function(){
+              change_info("15001");
+            });
+
+            // Flipster 초기화 및 함수 지정
+            var carousel = $("#carousel").flipster({
+              style: 'carousel',
+              spacing: -0.5,
+              nav: false,
+              buttons: true,
+              autoplay: 5000,
+              loop:true,
+              start: 0,
+              onItemSwitch : function(current){
+                isbn = current.getElementsByTagName('img')[0].getAttribute("value");
+                change_info(isbn)
+              },
+            });
+
+            // Flipster 변화에 따른 설명문 변경
+            function change_info(isbn){
+              info_title = document.querySelector("#carousel-info-title");
+              info_title.innerText =isbn;
+            }
+          </script>
+        </div>
       </div>
-      <script>
-        var carousel = $("#carousel").flipster({
-            style: 'carousel',
-            spacing: -0.5,
-            nav: true,
-            buttons:   true,
-        });
-      </script>
-    </div>   
+      <div class="col-5">
+        <div class="carousel-info">
+          <a id="carousel-info-title">Title</a>        
+          <a id="carousel-info-writer">Writer</a>          
+          <a id="carousel-info-publisher">Publish</a>
+        </div>
+      </div>   
+    </div>
+    
 
     
     <hr>
