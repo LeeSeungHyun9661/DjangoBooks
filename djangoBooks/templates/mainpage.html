@@ -55,37 +55,29 @@
   
   <div class="main">
     {% comment %} 도서 할인 광고 {% endcomment %}
-    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators mb-0">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
       <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="5000">
+        <div class="carousel-item active" data-bs-interval="10000">
           <img src="{% static 'img/no_book_image.png' %}" class="d-block w-100" alt="...">
         </div>
-        <div class="carousel-item" data-bs-interval="2000">
+        <div class="carousel-item" data-bs-interval="10000">
           <img src="{% static 'img/no_book_image.png' %}" class="d-block w-100" alt="...">
         </div>
-        <div class="carousel-item">
+        <div class="carousel-item" data-bs-interval="10000">
           <img src="{% static 'img/no_book_image.png' %}" class="d-block w-100" alt="...">
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
     <hr>
-    {% comment %} 새롭게 출시된 책 {% endcomment %}
 
-    <h3 class="new-release-title">New Release</h3>    
-    <div class="row">
+    {% comment %} 새롭게 출시된 책 {% endcomment %}
+    <h3 class="title">New Release</h3>    
+    <div class="row m-0">
       <div class="col-7 p-0">
         <div class="carousel-wheel">
           <div id="carousel">
@@ -98,11 +90,11 @@
               <li><img src="{% static 'img/book-img.jpg' %}" value="15006"></li>
             </ul>
           </div>
+          {% comment %} Flipster 기능 {% endcomment %}
           <script>
             $(document).ready(function(){
               change_info("15001");
             });
-
             // Flipster 초기화 및 함수 지정
             var carousel = $("#carousel").flipster({
               style: 'carousel',
@@ -117,11 +109,13 @@
                 change_info(isbn)
               },
             });
-
             // Flipster 변화에 따른 설명문 변경
             function change_info(isbn){
               info_title = document.querySelector("#carousel-info-title");
-              info_title.innerText =isbn;
+              jQuery(info_title).fadeOut(100, function(){
+                info_title.innerText =isbn;
+                jQuery(info_title).fadeIn(100);
+              });
             }
           </script>
         </div>
@@ -133,17 +127,77 @@
           <a id="carousel-info-publisher">Publish</a>
         </div>
       </div>   
-    </div>
-    
-
-    
+    </div>   
     <hr>
     {% comment %} 베스트 셀러 {% endcomment %}
-    <hr>
-    {% comment %} 추천 도서 {% endcomment %}
+    <h3 class="title">Bestseller</h3>
+    <div class="bestseller">
+      <div class="frame">
+        <ul class="slidee">
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15001"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15002"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15003"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15004"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15005"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15006"></li>
+          <li><img src="{% static 'img/book-img.jpg' %}" value="15007"></li>
+        </ul>
+      </div>
+    </div>
+    
+    <script>
+        var sly = new Sly($('.frame'), {
+            horizontal: 1, // required
+            itemNav: 'basic', // required
+            smart: 1,
+            mouseDragging: 1,
+            touchDragging: 1,
+            releaseSwing: 1,
+            scrollSource: null,
+            speed: 300,
+            elasticBounds: 1,
+            dragHandle: 1,
+            dynamicHandle: 1,
+            clickBar: 1
+        }, null).init();
+        var counter = 0;
+    </script>
+  </div>
+</div>
+
+<div class = "mainpage2">
+  <hr>
+  {% comment %} 핫한 리뷰 {% endcomment %}
+  <h3 class="title">Hot Review!</h3>
+  <div class="hot-review">
+  <div class="row m-0">
+    <div class="col-4 p-2">
+      <div class="review-book">
+        <img src="{% static 'img/book-img.jpg' %}" value="15001">
+      </div>
+    </div>
+    <div class="col-8 p-2">
+      <div class="review-info">
+        <div id="review-book-info">
+          <h3>Title</h3><h5>writer</h5>
+        </div>
+        <div id="review">
+          <p id="review-text">리뷰 내용을 적성하면 이렇게 나온답니다.</p>
+          <a href=""> 더보기</a>
+        </div>
+        <div id="review-writer">
+          <p class="text-end">리뷰 작성자</p>
+        </div>
+      </div>
+    </div>
   </div>
   
-
+    
+    
+  </div>    
+  <hr>
+  {% comment %} 추천 도서 {% endcomment %}
+  <h3 class="title">Books for you!</h3>  
 
 </div>
   

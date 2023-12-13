@@ -126,7 +126,7 @@
 <script>
   $(document).on("click", "#button-search", function (e) {
     e.preventDefault();
-    url = "{% url 'djangoBooks:list' %}";
+    url = "{% url 'books:list' %}";
     data = {
       perpage: "{{perpage}}",   
       sort: "{{sort}}", 
@@ -159,7 +159,7 @@
       num_pages = parseInt($(this).text());
     }
 
-    url ="{% url 'djangoBooks:list' %}";
+    url ="{% url 'books:list' %}";
     data = {
       page: num_pages,
       perpage: "{{perpage}}",   
@@ -171,7 +171,7 @@
   
   $(document).on("click", ".dropdown-item", function (e) {
     e.preventDefault();
-    url = "{% url 'djangoBooks:list' %}";
+    url = "{% url 'books:list' %}";
     data ={       
       perpage: $(this).data("perpage"), //GET 방식에 페이지 번호를 넣어서 전송          
       sort: $(this).data("sort"), //GET 방식에 페이지 번호를 넣어서 전송

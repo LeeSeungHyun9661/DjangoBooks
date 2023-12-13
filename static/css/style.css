@@ -1,5 +1,5 @@
 /* 로딩창 */
-#loading_background{
+#loading_background {
    display: none;
    width: 100%;
    height: 100%;
@@ -21,133 +21,290 @@
 }
 
 #load {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    display: block;
-    opacity: 0.8;
-    background: white;
-    z-index: 99;
-    text-align: center;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.8;
+   background: white;
+   z-index: 99;
+   text-align: center;
 }
 
 #load > img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 100;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   z-index: 100;
 }
 
 /* Custom CSS */
-body{    
-    text-align:center;
+body {
+   text-align: center;
 }
 
-div{
-    border: 1px solid green;
+div {
+   border: 1px solid rgba(0, 255, 0, 0.5);
 }
 
-/* 도서 검색 */
+/* 도서 검색창 */
 .search {
-    display: flex;
-    justify-content: center;
-    margin-right: 30px;
-    margin-left: 30px;
-    .input-group{
-        max-width: 800px;
-    }
-    @media (max-width: 768px) {
-        margin-right: 30px;
-        margin-left: 30px;
-        .input-group{
-            max-width: 300px;
-        }
-    }
+   display: flex;
+   justify-content: center;
+   margin-right: 30px;
+   margin-left: 30px;
+   .input-group {
+      max-width: 800px;
+   }
+   @media (max-width: 768px) {
+      margin-right: 30px;
+      margin-left: 30px;
+      .input-group {
+         max-width: 300px;
+      }
+   }
 }
 
-.mainpage{
-    display: flex;
-    padding-left:200px;
-    padding-right:200px;
-    @media (max-width: 1200px) {
-        padding-left:50px;
-        padding-right:50px;
-    }
-    @media (max-width: 768px) {
-        padding-left:3px;
-        padding-right:3px;
-    }
-
-    /* 도서 메뉴 */
-    .books-menu{
-        width: 200px;
-        @media (max-width: 768px) {width: 80px;}  
-    }
-    .books-menu .accordion{
-        .accordion-button{
-            display:flex;
-            align-items:center;
-            padding: 3px;    
-        } 
-        .accordion-button{
-            text-align: center;
-            position: relative;
-            font-size: 20px;     
-            @media (max-width: 768px) {font-size: 13px;}       
-        }
-        .list-group .list-group-item{  
-            padding: 5px;       
-            font-size: 15px;
-            @media (max-width: 768px) {font-size: 10px; padding: 2px;}
-        }       
-    }
-
-    .main{
-        padding: 10px;
-        width: auto;
-        flex: 100%;
-        /* 도서 할인 광고 */
-        .carousel{
-            max-height: 400px;
-        }
-
-        .carousel-item img{
-            max-height: 300px;
-            object-fit: contain;
-        
-            @media (max-width: 768px) {
-                max-height: 150px;
-            }
-        }
-        /* 신간 도서 편집 */
-
-        .new-release-title{
-            font-size: 30px; @media (max-width: 768px) {font-size: 15px;}
-        }
-
-        .carousel-wheel{
-            #carousel{
-                padding:10px;
-                height: auto;                
-            }     
-            #carousel .flip-items{
-                height: auto;
-            }
-
-            #carousel .flip-items li img{
-                height: 297px;
-                width: 210px;
-                object-fit: contain;
-                @media (max-width: 768px) {
-                    height: 150px;
-                    width: 100px;
-                }
-            } 
-        }
-    }
+.mainpage {
+   display: flex;
+   padding-left: 200px;
+   padding-right: 200px;
+   @media (max-width: 1200px) {
+      padding-left: 50px;
+      padding-right: 50px;
+   }
+   @media (max-width: 768px) {
+      padding-left: 3px;
+      padding-right: 3px;
+   }
 }
 
+.mainpage .books-menu {
+   width: 130px;
+   @media (max-width: 768px) {
+      width: 80px;
+   }
+}
 
+.mainpage .books-menu .accordion {
+   .accordion-button {
+      display: flex;
+      align-items: center;
+      padding: 3px;
+   }
+}
 
+.mainpage .books-menu .accordion .accordion-button {
+   text-align: center;
+   position: relative;
+   font-size: 20px;
+   @media (max-width: 768px) {
+      font-size: 13px;
+   }
+}
+
+.mainpage .books-menu .accordion .list-group .list-group-item {
+   padding: 5px;
+   font-size: 15px;
+   @media (max-width: 768px) {
+      font-size: 10px;
+      padding: 2px;
+   }
+}
+
+.mainpage .main .title {
+   font-size: 30px;
+   @media (max-width: 768px) {
+      font-size: 15px;
+   }
+}
+
+.mainpage .main {
+   padding: 10px;
+   flex: 100%;
+   overflow: hidden;
+   position: relative;
+   width: 100%;
+}
+
+/* 도서 광고 배너 */
+.mainpage .main .carousel {
+   max-height: 300px;
+}
+
+.mainpage .main .carousel-item img {
+   max-height: 200px;
+   object-fit: contain;
+
+   @media (max-width: 768px) {
+      max-height: 150px;
+   }
+}
+
+/* 신간 도서 편집 */
+.mainpage .main .carousel-wheel {
+   #carousel {
+      padding: 10px;
+      height: auto;
+   }
+   #carousel .flip-items {
+      height: auto;
+   }
+
+   #carousel .flip-items li img {
+      height: 297px;
+      width: 210px;
+      object-fit: contain;
+      @media (max-width: 768px) {
+         height: 150px;
+         width: 100px;
+      }
+   }
+}
+.mainpage .main .bestseller {
+   width: 100%;
+}
+.mainpage .main .bestseller .frame {
+   width: 100%;
+   padding: 0;
+   touch-action: manipulation;
+}
+
+.mainpage .main .bestseller .frame .slidee {   
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   height: 100%;
+}
+.mainpage .main .bestseller .frame .slidee li {
+   float: left;
+   margin: 0 5px 0 0;
+   padding: 10px;
+   height: 100%;
+}
+.mainpage .main .bestseller .frame .slidee li img {
+   height: 297px;
+   width: 210px;
+   object-fit: contain;
+   @media (max-width: 768px) {
+      height: 150px;
+      width: 100px;
+      object-fit: contain;
+   }
+}
+
+.mainpage2{
+   display: flex;
+   flex-direction: column;
+   padding-left: 200px;
+   padding-right: 200px;
+   @media (max-width: 1200px) {
+      padding-left: 50px;
+      padding-right: 50px;
+   }
+   @media (max-width: 768px) {
+      padding-left: 3px;
+      padding-right: 3px;
+   }
+}
+
+.mainpage2 .hot-review{
+   height: auto;
+
+}
+
+.mainpage2 .hot-review .review-book{
+   text-align : center;
+}
+
+.mainpage2 .hot-review .review-book img{   
+   object-fit: contain;
+   height: 250;
+   width: 170px;
+}
+
+.mainpage2 .hot-review .review-info {
+   #review-book-info h3{font-size: 20px;} 
+   #review-book-info h5{font-size: 15px;}
+
+}
+
+.mainpage2 .hot-review .review {
+   overflow: hidden;
+   position: relative;
+   height: auto;
+}
+/* _______________________________________________________ */
+.mainpage .search-nav{
+   max-width: 100%;
+}
+
+.mainpage .search-main{
+   width: 100%;
+}
+
+.mainpage .search-main .search-menu{
+   width: 150px;
+   @media (max-width: 768px) {
+      width: 100px;
+   }
+}
+
+.mainpage .search-main .search-menu{
+   width: 150px;
+   @media (max-width: 768px) {
+      width: 100px;
+   }
+}
+
+.mainpage .search-main .search-result{
+   display: flex;    
+   flex-direction: column;
+   padding: 10px;
+   width: 100%;
+   h6{
+      font-size: 25px;
+   }
+
+   @media (max-width: 768px) {  
+      width:100%;
+      padding : 5px;
+      font-size: 10px;
+      h6{
+         font-size: 20px;
+      }
+   }
+   
+}
+
+.mainpage .search-main .search-result .dropdown button{
+
+   @media (max-width: 768px) {
+      width:100%;
+      padding : 5px;
+      font-size: 10px;
+   }
+}
+
+.mainpage .search-main .search-result  .dropdown-menu {
+   @media (max-width: 768px) {
+      width: 30px;
+      padding : 0px;
+      font-size: 10px;
+   }
+}
+
+.mainpage .search-main .search-result .btn-group button{
+   svg{
+      width: 15px;
+      height: 15px;
+   }
+
+   @media (max-width: 768px) {
+      width:100%;
+      padding : 5px;
+      font-size: 10px;
+   }
+}

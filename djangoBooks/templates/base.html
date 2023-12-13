@@ -7,16 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jquery -->
     <script src="https://kit.fontawesome.com/f9a809ddea.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- flipster css -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.flipster.min.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!-- bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <!-- Javascript-->
+    <script src="{% static 'js/script.js' %}"></script>
+    <!-- flipster js -->
     <script src="{% static 'js/jquery.flipster.min.js' %}"></script>
+    <!-- sly js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sly/1.6.1/sly.min.js"></script>
     <!-- 페이지 타이틀 설정 -->
     <title>DjangoBooks</title>
     <!-- 스타일 블록 -->
@@ -25,7 +31,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div class="container-fluid">
         <!-- 로고 -->
-        <a class="navbar-brand" href="{% url 'main' %}">
+        <a class="navbar-brand" href="{% url 'mainpage' %}">
            <img src="{% static 'img/django.png' %}" alt="Logo" width="80" height="30" class="d-inline-block align-text-top">
            DjangoBooks
         </a>
@@ -35,8 +41,8 @@
         </button>        
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="{% url 'main' %}">Home</a>
-            <a class="nav-link" href="{% url 'djangoBooks:list' %}">Book List</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'mainpage' %}">Home</a>
+            <a class="nav-link" href="{% url 'books:list' %}">Book List</a>
             <a class="nav-link" href="#">Pricing</a>
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </div>          
@@ -48,10 +54,12 @@
   <body style="margin-top: 60px; padding: 15px;">
     {% comment %} 검색창 {% endcomment %}
     <div class="search">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
-      </div>
+      <form class="input-group" action="{% url 'search' %}" method="GET">
+        <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search">
+        <button class="btn btn-outline-secondary" type="submit" id="button-search">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
     </div>
     <!-- 내용 -->
     {% block content %}{% endblock %}
