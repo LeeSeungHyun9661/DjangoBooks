@@ -1,0 +1,52 @@
+<div class="modal fade" id="RegisterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title " id="staticBackdropLabel">LOGIN</h5>
+      </div>
+
+      <div class="modal-body" style="text-align: center;">
+        <form method="post" id="regist">
+          {% csrf_token %}
+          {% for field in register_form %}
+            {{ field.label_tag }}
+            {{ field }}
+            <br>
+          {% endfor %}
+          <input type="hidden" id="regist_path" name="path" value="{{request.path}}"></input>
+          <div id="regist_error_respond"></div>
+          <button type="submit">회원가입</button>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $('#regist').on('submit',function(){
+      event.preventDefault();
+      form_array  = $(this).serialize();
+      $.ajax({
+          type:"POST",
+          url: "{% url 'accounts:regist' %}",
+          data : form_array,
+          success:function(data){ 
+              var keys = Object.keys(data); 
+              if (keys =="success"){
+                  alert("회원가입 완료!")
+                  window.location.href = (data["success"]);
+              }else{          
+                  for (key in keys){        
+                      $("#regist_error_respond").text(data[keys[key]])
+                  }      
+              }
+          }
+      })
+  }); 
+</script>

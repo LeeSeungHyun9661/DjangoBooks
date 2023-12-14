@@ -41,10 +41,16 @@
         </button>        
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="{% url 'mainpage' %}">Home</a>
-            <a class="nav-link" href="{% url 'books:list' %}">Book List</a>
-            <a class="nav-link" href="#">Pricing</a>
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+
+            <a class="nav-link {% if request.path == '/' %}disabled{% endif %}" aria-current="page" href="{% url 'mainpage' %}">HOME</a>
+            {% if request.user.is_authenticated %}
+            <h3 class="nav-link">{{request.user.name}}</h3>
+            <a class="nav-link" href="{% url 'accounts:logout' %}">LOGOUT</a>
+            {%else%}
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#LoginModal">LOGIN</a>
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#RegisterModal">REGISTER</a>
+            {%endif%}
+            <a class="nav-link" href="#">BOOKSHELF</a>
           </div>          
         </div>
       </div>
@@ -52,7 +58,7 @@
   </head>
 
   <body style="margin-top: 60px; padding: 15px;">
-    {% comment %} 검색창 {% endcomment %}
+    <!-- 검색창 -->
     <div class="search">
       <form class="input-group" action="{% url 'search' %}" method="GET">
         <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search">
@@ -65,6 +71,9 @@
     {% block content %}{% endblock %}
     <!-- 로딩 화면 -->
     {% include 'loading_screen.html' %}
+
+    {% include 'modal_login.html' %}
+    {% include 'modal_register.html' %}
 
   <footer></footer>
     <!-- bootstrap / css -->

@@ -1,0 +1,53 @@
+<div class="modal fade" id="LoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title " id="staticBackdropLabel">LOGIN</h5>
+      </div>
+
+      <div class="modal-body" style="text-align: center;">
+        <form method="post" id="login-form">
+          {% csrf_token %}
+          {% for field in login_form %}
+            {{ field.label_tag }}
+            {{ field }}
+            <br>
+          {% endfor %}
+          <div id="login_error_respond"></div>
+          <input type="hidden" id="login_path" name="path" value="{{request.path}}"></input>
+          <div class="find_pw">
+            <a href="">비밀번호를 잊으셨나요?</a>
+          </div>                    
+          <button type="submit">로그인</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#login-form').on('submit', function () {
+      event.preventDefault();
+      form_array = $(this).serialize();
+      $.ajax({
+          type: "POST",
+          url: "{% url 'accounts:login' %}",
+          data: form_array,
+          success: function (data) {
+              var keys = Object.keys(data);
+              if (keys == "success") {
+                  alert("로그인 성공!")
+                  window.location.href = (data["success"]);
+              } else {
+                  for (key in keys) {
+                      $("#login_error_respond").text(data[keys[key]])
+                  }
+              }
+          }
+      })
+  });
+</script>
