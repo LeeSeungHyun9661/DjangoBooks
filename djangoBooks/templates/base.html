@@ -39,16 +39,16 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>        
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
+        <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
 
+          <div class="navbar-nav">
             <a class="nav-link {% if request.path == '/' %}disabled{% endif %}" aria-current="page" href="{% url 'mainpage' %}">HOME</a>
             {% if request.user.is_authenticated %}
-            <h3 class="nav-link">{{request.user.name}}</h3>
-            <a class="nav-link" href="{% url 'accounts:logout' %}">LOGOUT</a>
+              <h3 class="nav-link">{{request.user.name}}</h3>
+              <a class="nav-link" href="{% url 'accounts:logout' %}">LOGOUT</a>
             {%else%}
-            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#LoginModal">LOGIN</a>
-            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#RegisterModal">REGISTER</a>
+              <a class="nav-link" data-bs-toggle="modal" data-bs-target="#LoginModal">LOGIN</a>
+              <a class="nav-link" data-bs-toggle="modal" data-bs-target="#RegisterModal">REGISTER</a>
             {%endif%}
             <a class="nav-link" href="#">BOOKSHELF</a>
           </div>          

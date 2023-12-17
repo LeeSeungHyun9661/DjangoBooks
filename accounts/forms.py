@@ -1,18 +1,16 @@
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm, AuthenticationForm
-from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from django import forms
 import re
-
 from accounts.models import User
 
+# 로그인 폼
 class LoginForm(forms.Form):
     name = forms.CharField(max_length=15,widget=forms.TextInput(attrs={'id':'login_name'}),label="아이디")
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'login_password'}),label="비밀번호")
     class Meta:
         model= User
         fields = ['name','password']
-
+    # 로그인 확인
     def clean(self): 
         cleaned_data = super().clean() 
         name = cleaned_data.get('name')
@@ -32,7 +30,7 @@ class LoginForm(forms.Form):
             else :
                 self.add_error('name',e)
 
-
+# 회원가입 폼
 class RegistForm(forms.ModelForm):
     name = forms.CharField(max_length=15,widget=forms.TextInput(attrs={'id':'regist_name'}),label="Name")
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'regist_password'}),label="Password")
@@ -44,6 +42,7 @@ class RegistForm(forms.ModelForm):
         model= User
         fields = ['name','password','password_check','email','gender','age']
 
+    # 회원가입 확인
     def clean(self): 
         cleaned_data = super().clean()
         name = cleaned_data.get('name')

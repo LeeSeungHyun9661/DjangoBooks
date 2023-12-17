@@ -56,7 +56,7 @@
   <div class="main">
     {% comment %} 도서 할인 광고 {% endcomment %}
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators mb-0">
+      <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -77,56 +77,93 @@
 
     {% comment %} 새롭게 출시된 책 {% endcomment %}
     <h3 class="title">New Release</h3>    
-    <div class="row m-0">
-      <div class="col-7 p-0">
-        <div class="carousel-wheel">
-          <div id="carousel">
-            <ul class="flip-items">
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15001"></li>
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15002"></li>
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15003"></li>
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15004"></li>
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15005"></li>              
-              <li><img src="{% static 'img/book-img.jpg' %}" value="15006"></li>
-            </ul>
-          </div>
-          {% comment %} Flipster 기능 {% endcomment %}
-          <script>
-            $(document).ready(function(){
-              change_info("15001");
-            });
-            // Flipster 초기화 및 함수 지정
-            var carousel = $("#carousel").flipster({
-              style: 'carousel',
-              spacing: -0.5,
-              nav: false,
-              buttons: true,
-              autoplay: 5000,
-              loop:true,
-              start: 0,
-              onItemSwitch : function(current){
-                isbn = current.getElementsByTagName('img')[0].getAttribute("value");
-                change_info(isbn)
-              },
-            });
-            // Flipster 변화에 따른 설명문 변경
-            function change_info(isbn){
-              info_title = document.querySelector("#carousel-info-title");
-              jQuery(info_title).fadeOut(100, function(){
-                info_title.innerText =isbn;
-                jQuery(info_title).fadeIn(100);
-              });
-            }
-          </script>
+    <div class="release">
+      <div class="carousel-wheel">
+        <div id="carousel">
+          <ul class="flip-items">
+            {%if newReleases%}
+              {%for newRelease in newReleases %}
+                <li><img src="{%if newRelease.img_url_l%}{{newRelease.img_url_l}}{% else %}{% static 'img/no_book_image.png.jpg' %}{% endif %}" 
+                  data-isbn="{{newRelease.isbn}}"
+                  data-title="{{newRelease.title}}"
+                  data-subtitle="{{newRelease.subtitle}}"
+                  data-authors="{{newRelease.authors}}"
+                  data-publishers="{{newRelease.publishers}}"
+                  data-publishdate="{{newRelease.publish_date}}"
+                  data-subjects="{{newRelease.subjects}}"
+                  data-description="{{newRelease.description}}"></li>
+              {%endfor%}
+            {% endif %}
+          </ul>
         </div>
+        {% comment %} Flipster 기능 {% endcomment %}
+        <script>
+          $(document).ready(function(){
+            var dataset = $('.flipster__item__content')[0].getElementsByTagName('img')[0].dataset;
+            change_info(dataset);
+          });
+          // Flipster 초기화 및 함수 지정
+          var carousel = $("#carousel").flipster({
+            style: 'carousel',
+            spacing: -0.5,
+            nav: false,
+            buttons: true,
+            autoplay: 5000,
+            loop:true,
+            start: 0,
+            onItemSwitch : function(current){
+              dataset = current.getElementsByTagName('img')[0].dataset;
+              change_info(dataset);
+            },
+          });
+          // Flipster 변화에 따른 설명문 변경
+          function change_info(dataset){
+            jQuery(document.querySelector("#carousel-info")).fadeOut(100, function(){
+              document.querySelector("#carousel-info").innerHTML = ''
+
+              if (check_empty(dataset.title)){
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h3 id="carousel-info-title">'+ dataset.title +'</h3><br>');
+              }
+              if (check_empty(dataset.subtitle)){
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-subtitle">'+ dataset.subtitle +'</h5><br>');
+              }
+              if (check_empty(dataset.authors)){
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-authors">'+'by ' + dataset.authors +'</h5><hr style="margin: auto">');
+              }
+              if (check_empty(dataset.publishers)){
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-publishers">'+ dataset.publishers +'</h5>');
+              }
+              if (check_empty(dataset.publishdate)){
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-publishdate">'+ dataset.publishdate +'</h5>');
+              }          
+              if (dataset.subjects != "None"){                 
+                // 주제 데이터셋 분할
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<div id="carousel-info-subjects"><h3>Subjects</h3><br></div>');
+                const subjects = dataset.subjects.split('/ ');
+                const SUBJECTS_TEMPLATE = (subject) => '<button type="button" class="btn btn-primary">'+subject+'</button>';
+                subjects.forEach(subject => document.querySelector("#carousel-info-subjects").insertAdjacentHTML("beforeend", SUBJECTS_TEMPLATE(subject)))
+  
+                jQuery(document.querySelector("#carousel-info")).fadeIn(100);
+              }            
+            });
+          }
+
+          function check_empty(data){
+            if(data != "None") return true;
+            else return false;
+          }
+        </script>
       </div>
-      <div class="col-5">
-        <div class="carousel-info">
-          <a id="carousel-info-title">Title</a>        
-          <a id="carousel-info-writer">Writer</a>          
-          <a id="carousel-info-publisher">Publish</a>
-        </div>
-      </div>   
+      <div class="carousel-info" id="carousel-info">    
+        <h3 id="carousel-info-title"></h3> 
+        <h5 id="carousel-info-subtitle"></h5>
+        <hr>
+        <p id="carousel-info-publishers"></p>
+        <p id="carousel-info-publish-date"></p>
+        <hr>
+        <p id="carousel-info-authors"></p>
+        <div id="carousel-info-subjects"></div>  
+      </div> 
     </div>   
     <hr>
     {% comment %} 베스트 셀러 {% endcomment %}
@@ -134,13 +171,11 @@
     <div class="bestseller">
       <div class="frame">
         <ul class="slidee">
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15001"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15002"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15003"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15004"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15005"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15006"></li>
-          <li><img src="{% static 'img/book-img.jpg' %}" value="15007"></li>
+          {%if bestsellers%}
+            {%for bestseller in bestsellers%}
+              <li><img src="{%if bestseller.img_url_l%}{{bestseller.img_url_l}}{% else %}{% static 'img/no_book_image.png.jpg' %}{% endif %}" value="{{bestseller.isbn}}"></li>
+            {%endfor%}
+          {% endif %}
         </ul>
       </div>
     </div>

@@ -144,7 +144,22 @@ div {
 }
 
 /* 신간 도서 편집 */
-.mainpage .main .carousel-wheel {
+.mainpage .main .release{
+   display: flex;
+   flex-direction: row;
+   padding: 10px;
+   @media (max-width: 768px) {
+      flex-direction: column;
+      padding: 3px;
+   }
+}
+
+.mainpage .main .release .carousel-wheel {
+   width:100%;
+   height: auto;
+   @media (max-width: 768px) {
+      width:auto;
+   }
    #carousel {
       padding: 10px;
       height: auto;
@@ -154,15 +169,87 @@ div {
    }
 
    #carousel .flip-items li img {
-      height: 297px;
-      width: 210px;
+      height: 400px;
+      width: 300px;
       object-fit: contain;
+      @media (max-width: 1024px) {
+         height: 240px;
+         width: 180px;
+      }
       @media (max-width: 768px) {
          height: 150px;
          width: 100px;
       }
    }
 }
+
+.mainpage .main .release .carousel-info {
+   width:100%;
+   height: auto;
+   
+   @media (max-width: 1024px) {
+      height: 240px;
+   }
+   @media (max-width: 768px) {
+      width:auto;
+      height: 300px;
+   }
+
+   h3{
+      border: 1px solid rgba(0, 255, 0, 0.5);
+      margin:0px;
+      width: auto;
+      font-size: 30px;
+      @media (max-width: 1024px) {
+         width: 300px;
+         font-size: 25px;
+      }
+      @media (max-width: 768px) {
+         width:100%;
+         font-size: 20px;
+      }
+      display : inline-block;
+      text-overflow : ellipsis;
+      overflow : hidden;
+       white-space : nowrap;
+   }
+   h5{
+      border: 1px solid rgba(0, 255, 0, 0.5);
+      margin:0px;
+      font-size: 20px;
+      @media (max-width: 1024px) {
+         font-size: 18px;
+      }
+      @media (max-width: 768px) {
+         font-size: 10px;
+      }
+      display : inline-block;
+      text-overflow : ellipsis;
+      overflow : hidden;
+       white-space : nowrap;
+   }
+
+   #carousel-info-subjects{
+      width: 100%;
+      height: auto;
+   }
+
+   #carousel-info-subjects button{
+      --bs-btn-padding-y: .25rem;
+      --bs-btn-padding-x: .5rem;
+      --bs-btn-font-size: 1rem;
+
+      @media (max-width: 1024px) {
+         --bs-btn-font-size: .90rem;
+      }
+      @media (max-width: 768px) {
+         --bs-btn-font-size: .70rem;
+      }
+   }
+}
+
+
+
 .mainpage .main .bestseller {
    width: 100%;
 }
