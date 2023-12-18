@@ -79,18 +79,40 @@ class books_detail(View):
     context={}
     template_name = 'books_detail_modal.html'
 
-    def get(self,request): 
-        
+    def get(self,request):         
         # 도서 isbn13 받아오기
-        SEQ_NO = request.GET.get('SEQ_NO', '') 
-        if Book.objects.filter(SEQ_NO = SEQ_NO).exists(): 
-            book = Book.objects.get(SEQ_NO = SEQ_NO) # 도서 객채 추가
-            self.context["book"] = book
-
-            return render(request, self.template_name ,self.context)
-        else:
+        isbn = request.GET.get('isbn')
+        print(isbn)
+        if isbn :
+            print("isbn 있음")
+            if Book.objects.filter(isbn = isbn).exists(): 
+                print("도서 발견됨")
+                book = Book.objects.get(isbn = isbn) # 도서 객채 추가
+                self.context["book"] = book
+                return render(request, self.template_name ,self.context)
+            else :
+                print("도서 없음")
             # 도서를 찾을 수 없습니다!
-            return redirect("books:list"),
-
+                return redirect("/")
+        else :
+            return redirect("/")
     def post(self,request):
         return redirect("books:list")
+    
+# 도서 상세 페이지
+class books_author(View):
+    context={}
+    template_name = 'books_author.html'
+    def get(self,request):         
+        # 도서 isbn13 받아오기
+        author_id = request.GET.get('author_id')
+        if author_id :
+            self.context = {"author_id":author_id}
+            return render(request, self.template_name ,self.context)
+        else :
+            return redirect("/")
+    def post(self,request):
+        return redirect("books:list")
+    
+
+    

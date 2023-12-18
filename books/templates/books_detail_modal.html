@@ -5,8 +5,7 @@
 
 <div class="modal-body" style="margin-top: -20px;">
   <div class="hstack gap-3">
-    <img class="img-responsive modal-img-book" src=
-    {% if book.IMAGE_URL %}"{{book.IMAGE_URL}}"{%else %}"{% static 'img/no_book_image.png' %}"{% endif %}>
+    <img class="img-responsive modal-img-book" src={% if book.IMAGE_URL %}"{{book.IMAGE_URL}}"{%else %}"{% static 'img/no_book_image.png' %}"{% endif %}>
     <div class="d-flex"><div class="vr"></div></div>  
     <div class="p-2">
       <ul class="list-group list-group-flush" style="height: 300px; margin-left: -10px;">
