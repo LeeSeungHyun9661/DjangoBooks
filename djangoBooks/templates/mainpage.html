@@ -56,7 +56,7 @@
   <div class="main">
     {% comment %} 도서 할인 광고 {% endcomment %}
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
+      <div class="carousel-indicators" style="margin:0;">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -113,7 +113,7 @@
                 spacing: -0.5,
                 nav: false,
                 buttons: true,
-                autoplay: false,
+                autoplay: 5000,
                 loop:true,
                 start: 0,
                 onItemSwitch : function(current){
@@ -130,13 +130,17 @@
               function moveAuthor(author_id){
                 location.href = "{% url 'books:author' %}?author_id=" + author_id;
               }
+
+              function moveSubject(subject){
+                location.href = "{% url 'books:subject' %}?subject=" + subject;
+              }
     
               function change_info(dataset){
                 jQuery(document.querySelector("#carousel-info")).fadeOut(100, function(){
                   document.querySelector("#carousel-info").innerHTML = ''
                   if (check_empty(dataset.title)){
                     if (check_empty(dataset.subtitle)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+"'"+dataset.isbn+"'"+');">'+dataset.title+'<br>'+dataset.subtitle+'</a>');}
-                    else{document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+dataset.isbn+');">'+dataset.title+'</a>');}                
+                    else{document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+"'"+dataset.isbn+"'"+');">'+dataset.title+'</a>');}                
                   }    
                   if (dataset.authors != "None"){                    
                     document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<div id="carousel-info-authors"></div><hr style="margin:3px;">');
@@ -153,15 +157,14 @@
                   if (dataset.subjects != "None"){
                     document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<hr style="margin:3px;"><div id="carousel-info-subjects"> <div class="row m-0 p-0"><div class="col-11 m-0 p-0"><div id="subjects-list"></div></div><div class="col-1 m-0 p-0"><button class="btn" data-bs-toggle="modal" data-bs-target="#subjectModal" style="text-align:right; width:100%; margin:0px"> + </button></div></div></div><hr style="margin:3px;">');
                     const subjects = dataset.subjects.split('/ ');
-                    const SUBJECTS_TEMPLATE = (subject) => '<button type="button" class="btn btn-primary">'+subject+'</button>';              
+                    const SUBJECTS_TEMPLATE = (subject) => '<button type="button" class="btn btn-primary" onclick="moveSubject('+"'" + subject +"'" +');">'+subject+'</button>';              
                     subjects.forEach(subject => document.querySelector("#subjects-list").insertAdjacentHTML("beforeend", SUBJECTS_TEMPLATE(subject)));
 
                     document.querySelector(".modal-body").innerHTML = ''
                     subjects.forEach(subject => document.querySelector(".modal-body").insertAdjacentHTML("beforeend", SUBJECTS_TEMPLATE(subject)));
                   }
                   
-                  document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<p id="carousel-info-description">'+ dataset.description +'</p>');
-                  
+                  if (check_empty(dataset.description)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<p id="carousel-info-description">'+ dataset.description +'</p>');}                          
                   jQuery(document.querySelector("#carousel-info")).fadeIn(100);     
                 });
               }    

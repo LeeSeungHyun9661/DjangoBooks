@@ -60,7 +60,8 @@
     <!-- 검색창 -->
     <div class="search">
       <form class="input-group" action="{% url 'search' %}" method="GET">
-        <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search">
+        <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search" value="{%if search_input %}{{search_input}}{%endif%}">
+          
         <button class="btn btn-outline-secondary" type="submit" id="button-search">
           <i class="bi bi-search"></i>
         </button>

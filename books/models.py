@@ -38,3 +38,16 @@ class NewRelease(models.Model):
     
     class Meta:
         db_table = u'books_newrelease'
+
+class Author(models.Model):
+    authors_id = models.CharField(max_length=100, primary_key=True, null=False) # 출판사명
+    name = models.CharField(max_length=100, blank=True, null=True) # 발행일자
+    personal_name = models.CharField(max_length=100, blank=True, null=True) # 부가기호명
+    location = models.CharField(max_length=100, blank=True, null=True) # 부가기호명
+    bio = models.TextField(max_length=50, blank=True, null=True) # 가격값
+    birth_date = models.CharField( max_length=100, null=True) # 이미지URL
+    death_date = models.CharField(max_length=100, blank=True, null=True) # 서적소개내용
+    img = models.CharField(max_length=200, blank=True, null=True) # KDC명
+
+    class Meta:
+        db_table = u'authors'

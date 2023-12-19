@@ -5,7 +5,7 @@
 
   <hr>
   <div class="mainpage" style="flex-direction: column;">
-    <!-- 검색 조건 -->
+    <!-- 사이드 검색 조건 -->
     <div class="search-nav">
       <ul class="nav nav-tabs nav-fill">
         <li class="nav-item">
@@ -22,9 +22,9 @@
         </li>
       </ul>
     </div>
-    <!-- 검색 조건 -->
+    <!-- 검색 옵션 -->
     <div class="search-main">
-      <div class="d-flex" style="height: auto">
+      <div class="d-flex" style="width:auto;height: auto">
         <div class="search-menu">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -95,63 +95,11 @@
         </div>
         <div class="vr"></div>
         <div class="search-result">
-          <div class="search-result-text">            
-            <h6>result of {{search_input}}<br></h6>
-          </div>
-          <div class="hstack gap-1">
-            <!-- 검색 결과 텍스트 -->
-            <!-- 검색 아이템 개수 -->
-            <div class="p-0 ms-auto text-center">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{perpage}}
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item {% if perpage == 5 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="5">5</a></li>
-                    <li><a class="dropdown-item {% if perpage == 10 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="10">10</a></li>
-                    <li><a class="dropdown-item {% if perpage == 15 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="25">25</a></li>
-                    <li><a class="dropdown-item {% if perpage == 20 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="50">50</a></li>
-                  </ul>        
-                </div>    
-            </div>
-            <div class="vr"></div>
-            <!-- 검색 조건 -->
-            <div class="p-0 text-center">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {%if sort == 0 %}Sort by{% elif sort == 1 %}Relevence{% elif sort == 2 %}Newest{% elif sort == 3 %}Oldest{% elif sort == 4 %}A-Z{%endif%}
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item{%if sort == 1 %} disabled{% endif %}"  data-sort="1" data-perpage="{{perpage}}">Relevence</a></li>
-                  <li><a class="dropdown-item{%if sort == 2 %} disabled{% endif %}" data-sort="2" data-perpage="{{perpage}}">Newest</a></li>
-                  <li><a class="dropdown-item{%if sort == 3 %} disabled{% endif %}" data-sort="3" data-perpage="{{perpage}}">Oldest</a></li>
-                  <li><a class="dropdown-item{%if sort == 4 %} disabled{% endif %}" data-sort="4" data-perpage="{{perpage}}">A-Z</a></li>
-                </ul>
-              </div> 
-            </div>
-            <div class="vr"></div>
-            <!-- 검색 그리드 -->
-            <div class="p-0 text-center">
-              <div class="btn-group" role="group" aria-label="Small button group">
-                <button type="button" class="btn btn-outline-secondary">
-                  <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewbox="0 0 16 16">
-                    <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/>
-                  </svg></button>
-                <button type="button" class="btn btn-outline-secondary">
-                  <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-justify" viewbox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
+          <div class="search-result-items">
+            {% include 'books_table.html' %}
           </div>
         </div>
       </div>
-
-      <div class="search-result-items">
-
-      </div>
-      
     </div>
   </div>
 

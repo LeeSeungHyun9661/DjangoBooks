@@ -360,14 +360,14 @@ div {
 
 .mainpage .search-main .search-menu{
    width: 150px;
-   @media (max-width: 768px) {
+   @media (max-width: 1024px) {
       width: 100px;
    }
 }
 
 .mainpage .search-main .search-menu{
-   width: 150px;
-   @media (max-width: 768px) {
+   width: 250px;
+   @media (max-width: 1024px) {
       width: 100px;
    }
 }
@@ -377,47 +377,143 @@ div {
    flex-direction: column;
    padding: 10px;
    width: 100%;
-   h6{
-      font-size: 25px;
-   }
-
-   @media (max-width: 768px) {  
-      width:100%;
+   @media (max-width: 1024px) { 
       padding : 5px;
-      font-size: 10px;
-      h6{
-         font-size: 20px;
+   }
+}
+
+.mainpage .search-main .search-result .search-result-items #table{
+   width: 100%;
+
+   .book-item{
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      width: auto;
+      img{
+         padding: 5px;
+         height: 297px;
+         width: 210px;         
+         @media (max-width: 1024px) {          
+            padding: 3px;   
+            height: 150px;
+            width: 100px;
+         }
+      }
+      .book-item-info{
+         width: 100%;
+      }
+
+      .book-item-info .book-item-info-title{
+         display: flex;
+         flex-direction: column;
+         h3, h4{
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp:1;
+            -webkit-box-orient: vertical;
+            @media (max-width: 1024px) {          
+               -webkit-line-clamp:2;
+            }
+            
+           
+         } 
+         h3{
+            font-size: 20px;
+            @media (max-width: 1024px) {             
+               font-size: 15px;
+            }
+         }        
+         h4 {
+            font-size: 18px;
+            @media (max-width: 1024px) {             
+               font-size: 10px;
+            }
+         }
       }
    }
+   .text-center{
+
+      width: 100%;
+   }
+
+   .container .row{      
+      display: grid;
+      grid-template-columns: repeat( 5, 1fr );
+      img{
+         padding: 5px;
+         object-fit: contain;
+         height: 297px;
+         width: 210px;         
+         @media (max-width: 1024px) {          
+            padding: 3px;   
+            height: 150px;
+            width: 100px;
+         }
+      }
+      @media (max-width: 1024px) {             
+         grid-template-columns: repeat( 3, 1fr );
+      }
+   }
+
+   .search-result-text{
+      display: flex;    
+      flex-direction: row;
+      h5{
+         align-self: flex-end;
+         margin: 0;
+         margin-right: 10px;
+         font-size: 20px;
+      }
+      h4{
+         align-self: flex-end;
+         margin: 0;
+         font-size: 25px;
+      }
    
-}
-
-.mainpage .search-main .search-result .dropdown button{
-
-   @media (max-width: 768px) {
-      width:100%;
-      padding : 5px;
-      font-size: 10px;
-   }
-}
-
-.mainpage .search-main .search-result  .dropdown-menu {
-   @media (max-width: 768px) {
-      width: 30px;
-      padding : 0px;
-      font-size: 10px;
-   }
-}
-
-.mainpage .search-main .search-result .btn-group button{
-   svg{
-      width: 15px;
-      height: 15px;
+      @media (max-width: 1024px) {
+         font-size: 10px;
+         h5{
+            font-size: 13px;
+         }
+         h4{
+            margin: 0;
+            font-size: 15px;
+         }
+      }
+      
+   } 
+   .dropdown-menu {
+      @media (max-width: 768px) {
+         width: 30px;
+         padding : 0px;
+         font-size: 10px;
+      }
    }
 
-   @media (max-width: 768px) {
-      width:100%;
-      padding : 5px;
-      font-size: 10px;
+   .dropdown button{
+
+      @media (max-width: 1024px) {
+         width:100%;
+         padding : 5px;
+         font-size: 10px;
+      }
+   }
+
+   .btn-group button{
+      svg{
+         width: 15px;
+         height: 15px;
+      }
+   
+      @media (max-width: 768px) {
+         width:100%;
+         padding : 5px;
+         font-size: 10px;
+      }
    }
 }

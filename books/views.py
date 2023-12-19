@@ -84,14 +84,11 @@ class books_detail(View):
         isbn = request.GET.get('isbn')
         print(isbn)
         if isbn :
-            print("isbn 있음")
             if Book.objects.filter(isbn = isbn).exists(): 
-                print("도서 발견됨")
                 book = Book.objects.get(isbn = isbn) # 도서 객채 추가
                 self.context["book"] = book
                 return render(request, self.template_name ,self.context)
             else :
-                print("도서 없음")
             # 도서를 찾을 수 없습니다!
                 return redirect("/")
         else :
@@ -108,6 +105,22 @@ class books_author(View):
         author_id = request.GET.get('author_id')
         if author_id :
             self.context = {"author_id":author_id}
+            return render(request, self.template_name ,self.context)
+        else :
+            return redirect("/")
+    def post(self,request):
+        return redirect("books:list")
+    
+    
+# 도서 상세 페이지
+class books_subject(View):
+    context={}
+    template_name = 'books_subject.html'
+    def get(self,request):         
+        # 도서 isbn13 받아오기
+        subject = request.GET.get('subject')
+        if subject :
+            self.context = {"subject":subject}
             return render(request, self.template_name ,self.context)
         else :
             return redirect("/")
