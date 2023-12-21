@@ -5,8 +5,7 @@ class Book(models.Model):
     olid = models.CharField(max_length=20, blank=True) # ISBN13
     title = models.CharField(max_length=100, blank=True, null=True) # 권명
     subtitle = models.TextField(blank=True, null=True) # 제목명
-    authors = models.CharField(max_length=100, blank=True, null=True) # 저작자명
-    authors_id = models.CharField(max_length=100, blank=True, null=True) # 출판사명
+    authors = models.JSONField('json',default=dict) # 저작자명
     publishers = models.CharField(max_length=100, blank=True, null=True) # 발행일자
     publish_places = models.CharField(max_length=100, blank=True, null=True) # 부가기호명
     publish_date = models.CharField(max_length=100, blank=True, null=True) # 부가기호명
@@ -14,7 +13,7 @@ class Book(models.Model):
     number_of_pages = models.IntegerField( blank=True, null=True) # 이미지URL
     physical_format = models.CharField(max_length=100, blank=True, null=True) # 서적소개내용
     physical_dimensions = models.CharField(max_length=100, blank=True, null=True) # KDC명
-    subjects = models.TextField(blank=True, null=True) # 제목대체명
+    subjects = models.JSONField('json',default=dict) # 제목대체명
     description = models.TextField(blank=True, null=True) # 저작자대체명	
     preview_url = models.CharField(max_length=200, blank=True, null=True) # 2발행일자
     info_url = models.CharField(max_length=200, blank=True, null=True) # 2발행일자
@@ -37,10 +36,10 @@ class NewRelease(models.Model):
     comments = models.TextField(blank=True, null=True) # 저작자대체명
     
     class Meta:
-        db_table = u'books_newrelease'
+        db_table = u'books_new'
 
 class Author(models.Model):
-    authors_id = models.CharField(max_length=100, primary_key=True, null=False) # 출판사명
+    author_id = models.CharField(max_length=100, primary_key=True, null=False) # 출판사명
     name = models.CharField(max_length=100, blank=True, null=True) # 발행일자
     personal_name = models.CharField(max_length=100, blank=True, null=True) # 부가기호명
     location = models.CharField(max_length=100, blank=True, null=True) # 부가기호명

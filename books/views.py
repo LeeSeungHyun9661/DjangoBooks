@@ -5,26 +5,8 @@ from django.core.paginator import Paginator
 from django.core.cache import cache
 from django.db.models import Q
 from datetime import datetime
-
-class CachingPaginator(Paginator):
-    def _get_count(self):
-
-        if not hasattr(self, "_count"):
-            self._count = None
-
-        if self._count is None:
-            try:
-                key = "adm:{0}:count".format(hash(self.object_list.query.__str__()))
-                self._count = cache.get(key, -1)
-                if self._count == -1:
-                    self._count = super().count
-                    cache.set(key, self._count, 3600)
-
-            except:
-                self._count = len(self.object_list)
-        return self._count
-
-    count = property(_get_count)
+from operator import itemgetter, attrgetter
+import operator
 
 # Create your views here.
 class books_list(View):
@@ -127,5 +109,76 @@ class books_subject(View):
     def post(self,request):
         return redirect("books:list")
     
+  
+# 검색 클래스
+class books_search(View):
+    context = {}
+    template_name = 'books_search.html'
+    def get(self,request):
+        page = int(request.GET.get('page', 1)) 
+        perpage = int(request.GET.get('perpage',10)) 
+        sort = int(request.GET.get('sort', 0)) 
+        mod = int(request.GET.get('mod', 0)) 
+        search_input = request.GET.get('search_input')
 
+        #검색어가 있을 경우 - 해당 검색어로 필터링
+        if search_input: 
+            books = Book.objects.filter(Q(title__icontains = search_input) | Q(authors__icontains = search_input) | Q(publishers__icontains = search_input))
+        else :
+            books = Book.objects.all()
+
+        subject_count = {}
+        for book in books:
+            for subject,subject_name in book.subjects.items():
+                if subject_name in subject_count:
+                    subject_count[subject_name] = subject_count[subject_name]+1
+                else:
+                    subject_count[subject_name] = 1
+                    
+        subject_count = sorted(
+            subject_count.items(), 
+            key = operator.itemgetter(1), 
+            reverse = True
+        )
+
+        # Ajax 요청인지 확인
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
+            self.template_name = 'books_table.html'
+            # 아이템 정렬 기준 선택 
+            if sort == 0:
+                books = books
+            elif sort == 1:
+                books = books 
+            elif sort == 2:
+                books = books
+            elif sort == 3:
+                books = books
+            else :
+                books = books   
+
+        paginator = Paginator(books, perpage)
+        books_list = paginator.get_page(page)
+
+        left_index = int(page) - 2
+        if left_index < 2 :
+            left_index=1
+
+        right_index = int(page) + 2
+        if right_index > paginator.num_pages :
+            right_index = paginator.num_pages
+        page_range = range(left_index,right_index+1)
+
+        self.context = {
+            "books_list":books_list,
+            "perpage":perpage,
+            "sort":sort,
+            "mod":mod,
+            "search_input":search_input,
+            "page_range":page_range,
+            "count":len(books),
+            "subject_count" : subject_count,
+        }
+        return render(request, self.template_name, self.context)        
+    def post(self,request):
+        return render(request, self.template_name, self.context)
     

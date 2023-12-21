@@ -75,6 +75,13 @@ div {
       padding-left: 10px;
       padding-right: 10px;
    }
+
+   hr{
+      margin: 0.5rem;
+      @media (max-width: 1024px) {
+         margin: 0.1rem;
+      }
+   }
 }
 
 .mainpage .books-menu {
@@ -111,6 +118,7 @@ div {
 }
 
 .mainpage .main .title {
+   margin: 0;
    font-size: 30px;
    @media (max-width: 1024px) {
       font-size: 15px;
@@ -140,24 +148,25 @@ div {
 }
 
 /* 신간 도서 편집 */
-.mainpage .main .release .row{
+.mainpage .main .release{
    display: flex;
    flex-direction: row;
    padding: 10px;
+   width: 100%;
    @media (max-width: 1024px) {
       flex-direction: column;
       padding: 3px;
    }
 }
 
-.mainpage .main .release .row .col-6{
+.mainpage .main .release .col-6{
    width: 50%;
    @media (max-width: 1024px) {
       width: 100%;
    }
 }
 
-.mainpage .main .release .row .carousel-wheel {
+.mainpage .main .release .carousel-wheel {
    height: auto;
    @media (max-width: 1024px) {
       width:auto;
@@ -168,7 +177,7 @@ div {
       height: auto;
       @media (max-width: 1024px) {         
          width: 100%;
-         padding: 10px;
+         padding: 3px;
       }
    }
    #carousel .flip-items {
@@ -189,7 +198,7 @@ div {
    }
 }
 
-.mainpage .main .release .row .carousel-info {
+.mainpage .main .release .carousel-info {
    width:auto;
    height: 424px;
    padding: 10px;
@@ -198,6 +207,7 @@ div {
    @media (max-width: 1024px){
       width:100%;
       height: auto;
+      padding: 3px;
    }
 
    a{
@@ -221,13 +231,35 @@ div {
       @media (max-width: 1024px) {
          font-size: 18px;
       }
-      @media (max-width: 768px) {
-         font-size: 10px;
-      }
       display : inline-block;
       text-overflow : ellipsis;
       overflow : hidden;
       white-space : nowrap;
+   }
+   p{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp : 6;
+      overflow: scroll;
+      font-size: 18px;
+      overflow-x:hidden;
+      overflow-y:scroll;
+      @media (max-width: 1024px) {
+         font-size: 15px;
+         
+      }
+   }
+   #carousel-info-authors{      
+      height: auto;
+      @media (max-width: 1024px) {
+         width: 100%;
+      }
+   }
+   #carousel-info-authors #authors-list{      
+      width: max-content;
+      display : inline-block;
+      white-space: nowrap;
+      text-overflow: clip;
    }
 
    #carousel-info-subjects{
@@ -237,13 +269,11 @@ div {
       }
    }
 
-   #carousel-info-subjects #subjects-list{
-      display: block;
+   #carousel-info-subjects #subjects-list{   
+      width: max-content;
+      display : inline-block;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @media (max-width: 1024px) {
-      }
+      text-overflow: clip;
    }
    #more-subject-button{
       width:100%;
@@ -252,13 +282,12 @@ div {
    #carousel-info-description{      
       flex: 1 1 auto;
       margin: 0;
-      border: 1px solid rgba(255, 0, 0, 0.5);
       @media (max-width: 1024px) {      
          height: 100px;
       }
    }
 }
-.mainpage .main .release .row .carousel-info button{
+.mainpage .main .release .carousel-info button{
    margin: 1px;
    --bs-btn-padding-y: .25rem;
    --bs-btn-padding-x: .5rem;
@@ -271,7 +300,7 @@ div {
    }
 }
 
-.mainpage .main .release .row .carousel-info #carousel-info-subjects .row{   
+.mainpage .main .release .carousel-info #carousel-info-subjects .row{   
    flex-direction: row;
 }
 
@@ -349,7 +378,7 @@ div {
    position: relative;
    height: auto;
 }
-/* _______________________________________________________ */
+/* __________________________ 도서 검색 _____________________________ */
 .mainpage .search-nav{
    max-width: 100%;
 }
@@ -386,11 +415,13 @@ div {
    width: 100%;
 
    .book-item{
+      padding:10px;
       margin: 0;
       display: flex;
       flex-direction: row;
-      width: auto;
-      img{
+      width: 100%;
+
+      .book-img-frame{
          padding: 5px;
          height: 297px;
          width: 210px;         
@@ -399,28 +430,26 @@ div {
             height: 150px;
             width: 100px;
          }
-      }
+         img{
+            width: 100%;           
+         }
+
+      }    
       .book-item-info{
-         width: 100%;
+         padding: 5px;
+         width: 80%;
       }
 
       .book-item-info .book-item-info-title{
          display: flex;
          flex-direction: column;
+         width: 100%;
          h3, h4{
-            margin: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: normal;
-            word-wrap: break-word;
+            width: 100%;
             display: -webkit-box;
-            -webkit-line-clamp:1;
             -webkit-box-orient: vertical;
-            @media (max-width: 1024px) {          
-               -webkit-line-clamp:2;
-            }
-            
-           
+            -webkit-line-clamp: 1;
+            overflow: hidden;
          } 
          h3{
             font-size: 20px;
@@ -488,7 +517,7 @@ div {
       
    } 
    .dropdown-menu {
-      @media (max-width: 768px) {
+      @media (max-width: 1024px) {
          width: 30px;
          padding : 0px;
          font-size: 10px;
@@ -510,7 +539,7 @@ div {
          height: 15px;
       }
    
-      @media (max-width: 768px) {
+      @media (max-width: 1024px) {
          width:100%;
          padding : 5px;
          font-size: 10px;

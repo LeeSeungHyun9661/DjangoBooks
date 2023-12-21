@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<hr>
+<div class="mainpage" style="flex-direction: column;">
+  <!-- 검색 조건 -->
+  <div class="search-nav">
+    <ul class="nav nav-tabs nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+  </div>
+  <!-- 주제 검색 옵션 -->
+  <div class="search-main">
+    <div class="d-flex" style="width:auto;height: auto">
+      <div class="search-menu">
+        <h3 class="subject-menu-title">Subject</h3>
+        <input class="subject-menu-filter" type="text">
+        <div class="row">
+          <div class="col-5 p-0"><button class="select_all_subject">Select All</button></div>
+          <div class="col-5 p-0"><button class="cancel_all_subject">Cancel All</button></div>
+          <div class="col-2 p-0"><button class="select_apply">Apply</button></div>
+        </div>
+        {% if subject_count %}
+          {% for subject in subject_count%}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="checkbox_{{subject.0}}" value="{{subject.0}}">
+              <label class="form-check-label" for="checkbox_{{subject.0}}">({{subject.1}}) {{subject.0}}</label>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="vr"></div>
+      <div class="search-result">
+        <div class="search-result-items">          
+          <div id="table">
+          {% include 'books_table.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var perpage = "{{perpage}}";
+  document.querySelector("#search_perpage_value").value = perpage;
+  var sort = "{{sort}}";
+  document.querySelector("#search_sort_value").value =sort;
+  var search_input = "{{search_input}}";
+  var mod = "{{mod}}";
+  document.querySelector("#search_mod_value").value = mod;
+  var page;
+
+  $(document).on("click", ".select_all_subject", function (e){
+    const list = document.getElementsByClassName('form-check-input');
+    for(var i = 0; i < list.length; i++){
+      if(list[i].getAttribute('type') == 'checkbox'){
+        list[i].checked = true;
+        }
+    }
+  });
+
+  $(document).on("click", ".cancel_all_subject", function (e){
+    const list = document.getElementsByClassName('form-check-input');
+    for(var i = 0; i < list.length; i++){
+      if(list[i].getAttribute('type') == 'checkbox'){
+        list[i].checked = false;
+        }
+    }
+  });
+  
+  $(document).on("click", ".select_apply", function (e){
+    applied_subjects = []
+    const list = document.getElementsByClassName('form-check-input');
+    for(var i = 0; i < list.length; i++){
+      if(list[i].getAttribute('type') == 'checkbox' && list[i].checked){
+        applied_subjects.push(list[i].value);
+      }
+    }
+    console.log(applied_subjects)
+  });
+
+  $('.subject-menu-filter').on("propertychange change keyup paste input", function (e){
+    var text = $('.subject-menu-filter').val()
+    const list = document.getElementsByClassName('form-check-input');
+    for(var i = 0; i < list.length; i++){
+      if(list[i].value.match(new RegExp(text,'i')) == null){
+        list[i].parentNode.style.display = "none";
+      }else{
+        list[i].parentNode.style.display = "block";
+      }
+    }
+  });
+  
+  
+  //페이지네이션 버튼 클릭에 따른 결과 전달
+  $(document).on("click", ".page-item", function (e){
+    console.log($(this));
+    if ($(this).text().trim() == 'First') {
+      num_pages = 1;
+    } else if ($(this).text().trim() == 'Last') {
+      //마지막 페이지인 경우 : 페이지 끝번
+      num_pages = parseInt($(this).attr("value"));
+    } else {
+      //해당 페이지 : 페이지 번호
+      num_pages = parseInt($(this).text());
+    }
+    page = num_pages;
+    console.log("page :" + page);
+    ajax_get();
+  });
+
+  $(document).on("click", ".dropdown-item", function (e) {
+    e.preventDefault();
+    perpage = $(this).data("perpage"); //GET 방식에 페이지 번호를 넣어서 전송
+    sort = $(this).data("sort"); //GET 방식
+    document.querySelector("#search_perpage_value").value = $(this).data("perpage");
+    document.querySelector("#search_sort_value").value = $(this).data("sort");
+    page = 1;
+    ajax_get();
+  });
+
+  $(document).on("click", "#mod-0", function (e) {
+    e.preventDefault();
+    mod = 0;
+    document.querySelector("#search_mod_value").value = 0;
+    ajax_get();
+  });
+
+  $(document).on("click", "#mod-1", function (e) {
+    e.preventDefault();
+    mod = 1;
+    document.querySelector("#search_mod_value").value = 1;
+    ajax_get();
+  });
+
+  function ajax_get() {
+    $.ajax({
+      type: "get", //GET 방식 사용
+      url : "{% url 'books:search' %}",
+      data : {
+        page : page,
+        perpage: perpage,
+        sort: sort,
+        search_input: search_input,
+        mod : mod
+      },
+      success: function (data) {
+        document.querySelector("#table").innerHTML = data;
+      },
+      error: function(request, status, error){
+        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);    
+      },
+      beforeSend: function () {
+        $("#loading_background").show();
+        $("#loading_spinner").show();
+      },
+      complete: function () {
+        $("#loading_background").hide();
+        $("#loading_spinner").hide();
+        window.scrollTo(0, 0);
+      }
+    });
+  }
+
+</script>
+
+{% endblock %}
