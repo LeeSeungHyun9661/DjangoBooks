@@ -129,12 +129,12 @@
              @media (max-width: 1024px) {
                 width: 100%;
              }
-          }
-          #carousel-info-authors #authors-list {
-             width: max-content;
-             display: inline-block;
-             white-space: nowrap;
-             text-overflow: clip;
+             #authors-list {
+              width: max-content;
+              display: inline-block;
+              white-space: nowrap;
+              text-overflow: clip;
+           }
           }
  
           #carousel-info-subjects {
@@ -300,7 +300,6 @@
             window.onresize = function(event){
               setting_overflow_button();
             }
-
             $(document).ready(function(){
               var dataset = $('.flipster__item__content')[0].getElementsByTagName('img')[0].dataset;
               change_info(dataset);
@@ -319,8 +318,7 @@
                 change_info(dataset);
               },
             });
-            // Flipster 변화에 따른 설명문 변경
-  
+            // Flipster 변화에 따른 설명문 변경  
             function moveDetail(isbn){
               location.href = "{% url 'books:detail' %}?isbn=" + isbn;
             }
@@ -333,7 +331,6 @@
             function change_info(dataset){
               jQuery(document.querySelector("#carousel-info")).fadeTo(100,0, function(){
                 document.querySelector("#carousel-info").innerHTML = ''
-
                 //도서 제목 부분
                 if (check_empty(dataset.title)){
                   if (check_empty(dataset.subtitle)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+"'"+dataset.isbn+"'"+');">'+dataset.title+'<br>'+dataset.subtitle+'</a>');}
@@ -454,7 +451,7 @@
                 // 버튼이 있는 경우
                 if(document.querySelector("#author-modal-button") != null){
                   // 배열 overflow 속성 제거
-                  document.querySelector("#authors-list").style.removeProperty("hidden");
+                  document.querySelector("#authors-list").style.removeProperty("overflow");
                   // 모달 연결 버튼 제거
                   document.querySelector("#carousel-info-authors").removeChild(document.querySelector("#author-modal-button"));
                 }               

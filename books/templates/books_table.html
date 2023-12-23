@@ -83,7 +83,22 @@
         <!-- 리스트 형식 아이템 -->
         <div class="book-item">
           <div class="book-img-frame">
-            <img class="book-img" src="{% if book.img_url_l %}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png' %}{% endif %}" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';"/>
+            <img class="book-img" id="book-img-{{book.isbn}}" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';"/>
+            <!-- 이미지 설정 기능 -->
+            <script>
+              var src;
+              img = new Image();
+              img.onload = function() {
+                if (this.width == 1 && this.height == 1){
+                  src ="{% static 'img/no_book_image.png' %}";
+                }
+                else{
+                  src ="{{book.img_url_l}}";
+                }
+                document.querySelector("#book-img-{{book.isbn}}").src = src;
+              }
+              img.src = "{{book.img_url_l}}";
+            </script>
           </div>
           <div class="book-item-info">
             <div class="book-item-info-title">
@@ -92,21 +107,21 @@
                 <h4>{{book.subtitle}}</h4>
               {% endif %}
             </div>
-            <hr style="margin:0;">
-            <div class="book-item-info-author">
+            <div class="book-item-info-author">              
+              <div class="author-list">
               {% if book.authors%}
                 {% for author_id, author in book.authors.items %}
-                  <button onclick="location.href ='{% url 'books:author' %}?author_id={{author_id}}';">{{author}}
-                  </button>
+                <button onclick="location.href ='{% url 'books:author' %}?author_id={{author_id}}';"><h4>{{author}}</h4></button>
                 {% endfor %}
-              {% endif %}
-              <br/>
+              {% endif %}              
+              </div>
+              <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#authorModal" style="text-align:right; width:auto; margin:0px" value="{{book.authors|safe}}"> + </button>
             </div>
           </div>
-        </div>
+       </div>
       {% endfor %}
       <!-- 그리드 형식 아이템 -->
-      {% else%}
+    {% else%}
       <div class="container text-center p-10">
         <div class="row row-cols-5">
           {% for book in books_list %}
@@ -116,6 +131,7 @@
       </div>
     {% endif %}
   {% else %}
+  {% comment %} 도서 리스트가 없음 - 검색 결과 없음 {% endcomment %}
   {% endif %}
 
   <hr style="margin:0;">
