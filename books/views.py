@@ -59,7 +59,7 @@ class books_list(View):
 # 도서 상세 페이지
 class books_detail(View):
     context={}
-    template_name = 'books_detail_modal.html'
+    template_name = 'books_detail.html'
 
     def get(self,request):         
         # 도서 isbn13 받아오기
@@ -120,6 +120,7 @@ class books_search(View):
         sort = int(request.GET.get('sort', 0)) 
         mod = int(request.GET.get('mod', 0)) 
         search_input = request.GET.get('search_input')
+        applied_subjects = request.GET.getlist('applied_subjects')
 
         #검색어가 있을 경우 - 해당 검색어로 필터링
         if search_input: 
@@ -155,6 +156,11 @@ class books_search(View):
                 books = books
             else :
                 books = books   
+
+            if(applied_subjects):
+                for book in books:
+                    if(not any(item in book.subjects.values() for item in applied_subjects)):
+                        books = books.exclude(isbn = book.isbn) 
 
         paginator = Paginator(books, perpage)
         books_list = paginator.get_page(page)

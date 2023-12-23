@@ -1,58 +1,254 @@
 {% extends 'base.html' %}
+{% block style %}
+<style>
+  .mainpage .main {
+    padding: 10px;
+    flex: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+ 
+    .title {
+       margin: 0;
+       font-size: 30px;
+       @media (max-width: 1024px) {
+          font-size: 20px;
+       }
+    }
+ 
+    .carousel {
+       max-height: 300px;
+    }
+ 
+    .carousel-item img {
+       max-height: 200px;
+       object-fit: contain;
+ 
+       @media (max-width: 1024px) {
+          max-height: 150px;
+       }
+    }
+ 
+    .release {
+       display: flex;
+       flex-direction: row;
+       padding: 10px;
+       width: 100%;
+       @media (max-width: 1024px) {
+          flex-direction: column;
+          padding: 3px;
+       }
+       .col-6 {
+          width: 50%;
+          @media (max-width: 1024px) {
+             width: 100%;
+          }
+       }
+       .carousel-wheel {
+          height: auto;
+          @media (max-width: 1024px) {
+             width: auto;
+          }
+          #carousel {
+             width: 100%;
+             padding: 10px;
+             height: auto;
+             @media (max-width: 1024px) {
+                width: 100%;
+                padding: 3px;
+             }
+          }
+          #carousel .flip-items {
+             height: auto;
+          }
+ 
+          #carousel .flip-items li img {
+             height: 400px;
+             width: 300px;
+             object-fit: contain;
+             @media (max-width: 1024px) {
+                height: 240px;
+                width: 180px;
+             }
+             @media (max-width: 768px) {
+             }
+          }
+       }
+       .carousel-info {
+          width: auto;
+          height: 424px;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          @media (max-width: 1024px) {
+             width: 100%;
+             height: auto;
+             padding: 3px;
+          }
+ 
+          a {
+             margin: 0px;
+             width: 100%;
+             font-size: 30px;
+             @media (max-width: 1024px) {
+                width: 100%;
+                font-size: 25px;
+             }
+             display: inline-block;
+             text-overflow: ellipsis;
+             overflow: hidden;
+             white-space: nowrap;
+          }
+ 
+          h5 {
+             margin: 0px;
+             width: 100%;
+             font-size: 20px;
+             @media (max-width: 1024px) {
+                font-size: 18px;
+             }
+             display: inline-block;
+             text-overflow: ellipsis;
+             overflow: hidden;
+             white-space: nowrap;
+          }
+          p {
+             display: -webkit-box;
+             -webkit-box-orient: vertical;
+             -webkit-line-clamp: 6;
+             overflow: scroll;
+             font-size: 18px;
+             overflow-x: hidden;
+             overflow-y: scroll;
+             @media (max-width: 1024px) {
+                font-size: 15px;
+             }
+          }
+          #carousel-info-authors {
+             height: auto;
+             @media (max-width: 1024px) {
+                width: 100%;
+             }
+          }
+          #carousel-info-authors #authors-list {
+             width: max-content;
+             display: inline-block;
+             white-space: nowrap;
+             text-overflow: clip;
+          }
+ 
+          #carousel-info-subjects {
+             height: auto;
+             @media (max-width: 1024px) {
+                width: 100%;
+             }
+ 
+             #subjects-list {
+                width: max-content;
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: clip;
+             }
+             .row {
+                flex-direction: row;
+             }
+          }
+          #carousel-info-description {
+             flex: 1 1 auto;
+             margin: 0;
+             @media (max-width: 1024px) {
+                height: 100px;
+             }
+          }
+       }
+       .carousel-info button {
+          margin: 1px;
+          --bs-btn-padding-y: 0.25rem;
+          --bs-btn-padding-x: 0.5rem;
+          --bs-btn-font-size: 1rem;
+ 
+          @media (max-width: 1024px) {
+             --bs-btn-padding-y: 0.1rem;
+             --bs-btn-padding-x: 0.2rem;
+             --bs-btn-font-size: 0.7rem;
+          }
+       }
+    }
+ 
+    .bestseller {
+       width: 100%;
+       .frame {
+          width: 100%;
+          padding: 0;
+          touch-action: manipulation;
+          .slidee {
+             list-style: none;
+             margin: 0;
+             padding: 0;
+             height: 100%;
+          }
+          .slidee li {
+             float: left;
+             margin: 0 5px 0 0;
+             padding: 10px;
+             height: 100%;
+          }
+          .slidee li img {
+             height: 297px;
+             width: 210px;
+             object-fit: contain;
+             @media (max-width: 1024px) {
+                height: 150px;
+                width: 100px;
+                object-fit: contain;
+             }
+          }
+       }
+    }
+ 
+    .hot-review {
+       width: 100%;
+       height: auto;
+ 
+       .review-book {
+          text-align: center;
+          img {
+             object-fit: contain;
+             width: 100%;
+             @media (max-width: 1024px) {
+                height: 150px;
+                width: 100px;
+             }
+          }
+       }
+       review-info {
+          #review-book-info {
+             h3,
+             h5 {
+                margin: 0;
+             }
+          }
+          #review {
+             overflow: hidden;
+             position: relative;
+             height: auto;
+             flex: 0 1 auto;
+             p {
+                font-size: 15px;
+             }
+          }
+       }
+    }
+ }
+ 
+</style>
+{% endblock %}
 {% block content %}
 {% load static %}
   {% comment %} 도서 종류별 메뉴 {% endcomment %}
   
 <hr>
 <div class="mainpage">
-  <div class="d-flex" style="height: auto">
-    <div class="books-menu p-1">
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        {% comment %} 도서 종류 아이템 - Book {% endcomment %}
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Book" aria-expanded="false" aria-controls="flush-collapse-Book">
-              Book
-            </button>
-          </h2>
-          <div id="flush-collapse-Book" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body p-0">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-              </ul>            
-            </div>
-          </div>
-        </div>
-        {% comment %} 도서 종류 아이템 - E-Book{% endcomment %}
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-Ebook" aria-expanded="false" aria-controls="flush-collapse-Ebook">
-              E-Book
-            </button>
-          </h2>
-          <div id="flush-collapse-Ebook" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body p-0">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-              </ul>             
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="vr"></div>
-  </div>
-  
-  
-  
   <div class="main">
     {% comment %} 도서 할인 광고 {% endcomment %}
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -289,8 +485,7 @@
           {% endif %}
         </ul>
       </div>
-    </div>
-    
+    </div>    
     <script>
         var sly = new Sly($('.frame'), {
             horizontal: 1, // required
@@ -308,44 +503,210 @@
         }, null).init();
         var counter = 0;
     </script>
+
+    <hr>
+    {% comment %} 핫한 리뷰 {% endcomment %}
+    <h3 class="title">Hot Review!</h3>
+    <div class="hot-review">
+        <div id="hot-review-carousel">
+          <ul class="flip-items">
+            {%if reviews%}
+              {%for reviews in reviews %}
+                <a href={% url 'books:detail' %}?isbn={{newRelease.isbn}}>
+                  <li>
+                    {% comment %} <img src="{%if newRelease.img_url_l%}{{newRelease.img_url_l}}{% else %}{% static 'img/no_book_image.png.jpg' %}{% endif %}" 
+                    data-isbn="{{newRelease.isbn}}"
+                    data-title="{{newRelease.title}}"
+                    data-subtitle="{{newRelease.subtitle}}"
+                    data-authors="{{newRelease.authors}}"
+                    data-publishers="{{newRelease.publishers}}"
+                    data-publishdate="{{newRelease.publish_date}}"
+                    data-subjects="{{newRelease.subjects}}"
+                    data-description="{{newRelease.description}}"> {% endcomment %}
+                    <div class="card" style="width: 18rem;">
+                      <img src="..." class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      </div>
+                    </div>
+                  </li>
+                </a>                
+              {%endfor%}
+            {% endif %}
+          </ul>
+        </div>
+        <script>
+          window.onresize = function(event){
+            setting_overflow_button();
+          }
+
+          $(document).ready(function(){
+            var dataset = $('.flipster__item__content')[0].getElementsByTagName('img')[0].dataset;
+            change_info(dataset);
+          });
+          // Flipster 초기화 및 함수 지정
+          var carousel = $("#hot-review-carousel").flipster({
+            style: 'flat',
+            spacing: -0.5,
+            nav: false,
+            buttons: true,
+            autoplay: false,
+            loop:true,
+            start: 0,
+            onItemSwitch : function(current){
+            },
+          });
+          // Flipster 변화에 따른 설명문 변경
+
+          function moveDetail(isbn){
+            location.href = "{% url 'books:detail' %}?isbn=" + isbn;
+          }
+          function moveAuthor(author_id){
+            location.href = "{% url 'books:author' %}?author_id=" + author_id;
+          }
+          function moveSubject(subject){
+            location.href = "{% url 'books:subject' %}?subject=" + subject;
+          }    
+          function change_info(dataset){
+            jQuery(document.querySelector("#carousel-info")).fadeTo(100,0, function(){
+              document.querySelector("#carousel-info").innerHTML = ''
+
+              //도서 제목 부분
+              if (check_empty(dataset.title)){
+                if (check_empty(dataset.subtitle)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+"'"+dataset.isbn+"'"+');">'+dataset.title+'<br>'+dataset.subtitle+'</a>');}
+                else{document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<a id="carousel-info-title" onclick="moveDetail('+"'"+dataset.isbn+"'"+');">'+dataset.title+'</a>');}                
+              }   
+              //작가 추가 부분
+              if (dataset.authors != "None"){              
+                document.querySelector(".author-modal-body").innerHTML = '';
+
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<div class="hstack" id="carousel-info-authors"><div id="authors-list"></div></div><hr>');
+
+                const authors = JSON.parse(set_string_right(dataset.authors));
+
+                const AUTHORS_TEMPLATE = (author, author_id) =>'<button type="button" class="btn btn-primary" onclick="moveAuthor('+"'" + author_id +"'" +');">'+author+'</button>'; 
+
+                for (author_id in authors){
+                  // 모달 내부 초기화
+                  authors_name  = authors[author_id]
+
+                  if(authors_name == ""){authors_name = "unnamed"}
+
+                  document.querySelector("#authors-list").insertAdjacentHTML("beforeend", AUTHORS_TEMPLATE(authors_name,author_id))
+
+                  document.querySelector(".author-modal-body").insertAdjacentHTML("beforeend", AUTHORS_TEMPLATE(authors_name,author_id))
+                }
+              }
+              
+              // 도서 출판사
+              if (check_empty(dataset.publishers)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-publishers">'+ dataset.publishers +'</h5>');}
+              
+              // 도서 출판일 
+              if (check_empty(dataset.publishdate)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<h5 id="carousel-info-publishdate">'+ dataset.publishdate +'</h5>');}      
+              
+              // 주제 추가 부분
+              if (dataset.subjects != "None"){
+                // 모달 내부 초기화
+                document.querySelector(".subject-modal-body").innerHTML = '';
+                // 내부 내용 초기화
+                document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<hr><div class="hstack" id="carousel-info-subjects"><div id="subjects-list"></div></div><hr>');
+                // json 값을 받아와서 문장 내부 처리
+                const subjects = JSON.parse(set_string_right(dataset.subjects));                    
+                // 주제 배열을 버튼으로 만드는 템플릿             
+                const SUBJECTS_TEMPLATE = (subject) => '<button type="button" class="btn btn-primary" onclick="moveSubject('+"'" + subject +"'" +');">'+subject+'</button>';   
+                // json 반복문
+                for (subject_id in subjects){
+                  // 배열에 버튼 추가
+                  document.querySelector("#subjects-list").insertAdjacentHTML("beforeend", SUBJECTS_TEMPLATE(subjects[subject_id]))
+                  // 모달에 버튼 추가
+                  document.querySelector(".subject-modal-body").insertAdjacentHTML("beforeend", SUBJECTS_TEMPLATE(subjects[subject_id]))
+                }
+
+              }
+              
+              // 도서 설명 부분
+              if (check_empty(dataset.description)){document.querySelector("#carousel-info").insertAdjacentHTML("beforeend",'<p id="carousel-info-description">'+ dataset.description +'</p>');}
+              
+              // 아주 약한 선명도를 먼저 주고 오버플로우에 대한 버튼 생성을 먼저시작
+              jQuery(document.querySelector("#carousel-info")).fadeTo(1,0.01,function(){
+                setting_overflow_button();
+                // 완전하게 보이도록 설정
+                jQuery(document.querySelector("#carousel-info")).fadeTo(100,1)
+              });     
+            });
+          }    
+          function check_empty(data){
+            if(data != "None") return true;
+            else return false;
+          }
+          function set_string_right(string){
+            let array = Array.from(string);
+            check= false;
+            for(let i = 0; i< array.length; i++){
+              if(array[i] == '"'){
+                check = !check;
+              }
+              if(array[i] == "'" && check){
+                array[i] = '@'
+              }
+            }  
+            return array.join('').replaceAll("'", '"').replaceAll('@', "'");                  
+          }
+          function setting_overflow_button(){
+            console.log("child_width :" + document.querySelector("#subjects-list").scrollWidth + " || parent_width :" + document.querySelector("#carousel-info-subjects").offsetWidth);
+            // 오버플로우 맞는 경우
+            if(document.querySelector("#subjects-list").scrollWidth > document.querySelector("#carousel-info-subjects").offsetWidth){
+              // 버튼이 없는 경우
+              if(document.querySelector("#subject-modal-button") == null){
+                // 배열 overflow 속성 추가
+                document.querySelector("#subjects-list").style.overflow = "hidden";
+                // 모달 연결 버튼 추가
+                document.querySelector("#carousel-info-subjects").insertAdjacentHTML("beforeend",'<button class="btn ms-auto" id="subject-modal-button" data-bs-toggle="modal" data-bs-target="#subjectModal" style="text-align:right; width:auto; margin:0px"> + </button>');
+
+              }
+            // 오버플로우 아닌 경우
+            }else{
+              // 버튼이 있는 경우
+              if(document.querySelector("#subject-modal-button") != null){
+                // 배열 overflow 속성 제거
+                document.querySelector("#subjects-list").style.removeProperty("hidden");
+                // 모달 연결 버튼 제거
+                document.querySelector("#carousel-info-subjects").removeChild(document.querySelector("#subject-modal-button"));
+              }               
+            }
+
+
+            console.log("child_width :" + document.querySelector("#authors-list").scrollWidth + " || parent_width :" + document.querySelector("#carousel-info-authors").offsetWidth);
+            if(document.querySelector("#authors-list").scrollWidth > document.querySelector("#carousel-info-authors").offsetWidth){
+              // 버튼이 없는 경우
+              if(document.querySelector("#author-modal-button") == null){
+                // 배열 overflow 속성 추가
+                document.querySelector("#authors-list").style.overflow = "hidden";
+                // 모달 연결 버튼 추가
+                document.querySelector("#carousel-info-authors").insertAdjacentHTML("beforeend",'<button class="btn ms-auto" id="author-modal-button" data-bs-toggle="modal" data-bs-target="#authorModal" style="text-align:right; width:auto; margin:0px"> + </button>');
+
+              }
+            // 오버플로우 아닌 경우
+            }else{
+              // 버튼이 있는 경우
+              if(document.querySelector("#author-modal-button") != null){
+                // 배열 overflow 속성 제거
+                document.querySelector("#authors-list").style.removeProperty("hidden");
+                // 모달 연결 버튼 제거
+                document.querySelector("#carousel-info-authors").removeChild(document.querySelector("#author-modal-button"));
+              }               
+            }
+          }
+        </script>
+      </div>
+
+      <hr>
+      {% comment %} 추천 도서 {% endcomment %}
+      <h3 class="title">Books for you!</h3>  
+    </div>
   </div>
 </div>
-
-<div class = "mainpage2">
-  <hr>
-  {% comment %} 핫한 리뷰 {% endcomment %}
-  <h3 class="title">Hot Review!</h3>
-  <div class="hot-review">
-  <div class="row m-0">
-    <div class="col-4 p-2">
-      <div class="review-book">
-        <img src="{% static 'img/book-img.jpg' %}" value="15001">
-      </div>
-    </div>
-    <div class="col-8 p-2">
-      <div class="review-info">
-        <div id="review-book-info">
-          <h3>Title</h3><h5>writer</h5>
-        </div>
-        <div id="review">
-          <p id="review-text">리뷰 내용을 적성하면 이렇게 나온답니다.</p>
-          <a href=""> 더보기</a>
-        </div>
-        <div id="review-writer">
-          <p class="text-end">리뷰 작성자</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>    
-  <hr>
-  {% comment %} 추천 도서 {% endcomment %}
-  <h3 class="title">Books for you!</h3>  
-
-</div>
-
 
 {% include 'modal_subjects.html' %}
-{% include 'modal_author.html' %}
-  
+{% include 'modal_author.html' %}  
 {% endblock %}

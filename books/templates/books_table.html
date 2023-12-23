@@ -110,7 +110,7 @@
       <div class="container text-center p-10">
         <div class="row row-cols-5">
           {% for book in books_list %}
-            <img class="book-img" src="{% if book.img_url_l%}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png' %}{% endif %}" alt=""/>
+            <img class="book-img" src="{% if book.img_url_l%}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png' %}{% endif %}" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';"/>
           {% endfor %}
         </div>
       </div>

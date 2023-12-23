@@ -40,9 +40,16 @@
    z-index: 100;
 }
 
+
+
+
 /* Custom CSS */
 body {
    text-align: center;
+   padding : 15px;
+   @media (max-width: 1024px) {
+      padding : 5px;
+   }
 }
 
 div {
@@ -69,11 +76,11 @@ div {
 
 .mainpage {
    display: flex;
-   padding-left: 200px;
-   padding-right: 200px;
-   @media (max-width: 1024px) {
-      padding-left: 10px;
-      padding-right: 10px;
+   padding-left: 150px;
+   padding-right: 150px;
+   @media (max-width: 1024PX) {
+      padding-left: 3px;
+      padding-right: 3px;
    }
 
    hr{
@@ -117,267 +124,6 @@ div {
    }
 }
 
-.mainpage .main .title {
-   margin: 0;
-   font-size: 30px;
-   @media (max-width: 1024px) {
-      font-size: 15px;
-   }
-}
-
-.mainpage .main {
-   padding: 10px;
-   flex: 100%;
-   overflow: hidden;
-   position: relative;
-   width: 100%;
-}
-
-/* 도서 광고 배너 */
-.mainpage .main .carousel {
-   max-height: 300px;
-}
-
-.mainpage .main .carousel-item img {
-   max-height: 200px;
-   object-fit: contain;
-
-   @media (max-width: 1024px) {
-      max-height: 150px;
-   }
-}
-
-/* 신간 도서 편집 */
-.mainpage .main .release{
-   display: flex;
-   flex-direction: row;
-   padding: 10px;
-   width: 100%;
-   @media (max-width: 1024px) {
-      flex-direction: column;
-      padding: 3px;
-   }
-}
-
-.mainpage .main .release .col-6{
-   width: 50%;
-   @media (max-width: 1024px) {
-      width: 100%;
-   }
-}
-
-.mainpage .main .release .carousel-wheel {
-   height: auto;
-   @media (max-width: 1024px) {
-      width:auto;
-   }
-   #carousel {
-      width: 100%;
-      padding: 10px;
-      height: auto;
-      @media (max-width: 1024px) {         
-         width: 100%;
-         padding: 3px;
-      }
-   }
-   #carousel .flip-items {
-      height: auto;
-   }
-
-   #carousel .flip-items li img {
-      height: 400px;
-      width: 300px;
-      object-fit: contain;
-      @media (max-width: 1024px) {
-         height: 240px;
-         width: 180px;
-      }
-      @media (max-width: 768px) {
-
-      }
-   }
-}
-
-.mainpage .main .release .carousel-info {
-   width:auto;
-   height: 424px;
-   padding: 10px;
-   display: flex;
-   flex-direction: column;
-   @media (max-width: 1024px){
-      width:100%;
-      height: auto;
-      padding: 3px;
-   }
-
-   a{
-      margin:0px;
-      width: 100%;
-      font-size: 30px;
-      @media (max-width: 1024px) {
-         width:100%;
-         font-size: 25px;
-      }
-      display : inline-block;
-      text-overflow : ellipsis;
-      overflow : hidden;
-       white-space : nowrap;
-   }
-
-   h5{
-      margin:0px;
-      width: 100%;
-      font-size: 20px;
-      @media (max-width: 1024px) {
-         font-size: 18px;
-      }
-      display : inline-block;
-      text-overflow : ellipsis;
-      overflow : hidden;
-      white-space : nowrap;
-   }
-   p{
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp : 6;
-      overflow: scroll;
-      font-size: 18px;
-      overflow-x:hidden;
-      overflow-y:scroll;
-      @media (max-width: 1024px) {
-         font-size: 15px;
-         
-      }
-   }
-   #carousel-info-authors{      
-      height: auto;
-      @media (max-width: 1024px) {
-         width: 100%;
-      }
-   }
-   #carousel-info-authors #authors-list{      
-      width: max-content;
-      display : inline-block;
-      white-space: nowrap;
-      text-overflow: clip;
-   }
-
-   #carousel-info-subjects{
-      height: auto;
-      @media (max-width: 1024px) {
-         width: 100%;
-      }
-   }
-
-   #carousel-info-subjects #subjects-list{   
-      width: max-content;
-      display : inline-block;
-      white-space: nowrap;
-      text-overflow: clip;
-   }
-   #more-subject-button{
-      width:100%;
-   }
-
-   #carousel-info-description{      
-      flex: 1 1 auto;
-      margin: 0;
-      @media (max-width: 1024px) {      
-         height: 100px;
-      }
-   }
-}
-.mainpage .main .release .carousel-info button{
-   margin: 1px;
-   --bs-btn-padding-y: .25rem;
-   --bs-btn-padding-x: .5rem;
-   --bs-btn-font-size: 1rem;
-
-   @media (max-width: 1024px) {
-      --bs-btn-padding-y: .1rem;
-      --bs-btn-padding-x: .2rem;
-      --bs-btn-font-size: .70rem;
-   }
-}
-
-.mainpage .main .release .carousel-info #carousel-info-subjects .row{   
-   flex-direction: row;
-}
-
-
-.mainpage .main .bestseller {
-   width: 100%;
-}
-.mainpage .main .bestseller .frame {
-   width: 100%;
-   padding: 0;
-   touch-action: manipulation;
-}
-
-.mainpage .main .bestseller .frame .slidee {   
-   list-style: none;
-   margin: 0;
-   padding: 0;
-   height: 100%;
-}
-.mainpage .main .bestseller .frame .slidee li {
-   float: left;
-   margin: 0 5px 0 0;
-   padding: 10px;
-   height: 100%;
-}
-.mainpage .main .bestseller .frame .slidee li img {
-   height: 297px;
-   width: 210px;
-   object-fit: contain;
-   @media (max-width: 768px) {
-      height: 150px;
-      width: 100px;
-      object-fit: contain;
-   }
-}
-
-.mainpage2{
-   display: flex;
-   flex-direction: column;
-   padding-left: 200px;
-   padding-right: 200px;
-   @media (max-width: 1200px) {
-      padding-left: 50px;
-      padding-right: 50px;
-   }
-   @media (max-width: 768px) {
-      padding-left: 3px;
-      padding-right: 3px;
-   }
-}
-
-.mainpage2 .hot-review{
-   height: auto;
-
-}
-
-.mainpage2 .hot-review .review-book{
-   text-align : center;
-}
-
-.mainpage2 .hot-review .review-book img{   
-   object-fit: contain;
-   height: 250;
-   width: 170px;
-}
-
-.mainpage2 .hot-review .review-info {
-   #review-book-info h3{font-size: 20px;} 
-   #review-book-info h5{font-size: 15px;}
-
-}
-
-.mainpage2 .hot-review .review {
-   overflow: hidden;
-   position: relative;
-   height: auto;
-}
 /* __________________________ 도서 검색 _____________________________ */
 .mainpage .search-nav{
    max-width: 100%;
@@ -385,27 +131,84 @@ div {
 
 .mainpage .search-main{
    width: 100%;
-}
 
-.mainpage .search-main .search-menu{
-   width: 150px;
-   @media (max-width: 1024px) {
-      width: 100px;
+   h3{
+      margin: 0;
+      font-size: 20px;
+      @media (max-width: 1024px) {             
+         font-size: 15px;
+      }
+   }        
+   h4 {
+      margin: 0;
+      font-size: 18px;
+      @media (max-width: 1024px) {             
+         font-size: 10px;
+      }
    }
 }
 
 .mainpage .search-main .search-menu{
-   width: 250px;
+   width: 200px;
    @media (max-width: 1024px) {
       width: 100px;
    }
+   .search-menu-checkboxlist{
+      padding:5px;
+      height: 600px;
+      width: 200px;
+      overflow-y : auto;
+      overflow-x : hidden;
+      @media (max-width: 1024px) {
+         padding:3px;
+         height: 300px;
+         width: 100px;
+      }
+      .form-check{
+         top: 50%;
+         left: 50%;
+         height: auto;
+         width: auto;
+         @media (max-width: 1024px) {
+            height: auto;
+         }
+
+         h4{
+         white-space: normal;
+         overflow: hidden;
+         text-overflow: ellipsis;
+      }
+      }
+      
+   }
+
+   .subject-menu-filter{
+      font-size: 20px;
+      width: 100%;
+      height: auto;
+      @media (max-width: 1024px) {
+         font-size: 10px;
+      }
+   }
+
+   .subject-menu-filter::placeholder {
+      font-size: 20px;  
+   }
+
+   @media (max-width: 1024px) {
+      .subject-menu-filter::placeholder {
+         font-size: 10px;            
+      }   
+   }
+  
 }
 
 .mainpage .search-main .search-result{
    display: flex;    
    flex-direction: column;
    padding: 10px;
-   width: 100%;
+   width: 100%;         
+   flex: 1 1 auto;
    @media (max-width: 1024px) { 
       padding : 5px;
    }
@@ -451,22 +254,9 @@ div {
             -webkit-line-clamp: 1;
             overflow: hidden;
          } 
-         h3{
-            font-size: 20px;
-            @media (max-width: 1024px) {             
-               font-size: 15px;
-            }
-         }        
-         h4 {
-            font-size: 18px;
-            @media (max-width: 1024px) {             
-               font-size: 10px;
-            }
-         }
       }
    }
    .text-center{
-
       width: 100%;
    }
 

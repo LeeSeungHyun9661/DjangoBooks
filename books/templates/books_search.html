@@ -25,20 +25,24 @@
     <div class="d-flex" style="width:auto;height: auto">
       <div class="search-menu">
         <h3 class="subject-menu-title">Subject</h3>
-        <input class="subject-menu-filter" type="text">
-        <div class="row">
-          <div class="col-5 p-0"><button class="select_all_subject">Select All</button></div>
-          <div class="col-5 p-0"><button class="cancel_all_subject">Cancel All</button></div>
-          <div class="col-2 p-0"><button class="select_apply">Apply</button></div>
-        </div>
+        <div class="search-menu-checkboxlist">
         {% if subject_count %}
-          {% for subject in subject_count%}
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="checkbox_{{subject.0}}" value="{{subject.0}}">
-              <label class="form-check-label" for="checkbox_{{subject.0}}">({{subject.1}}) {{subject.0}}</label>
-            </div>
-          {% endfor %}
+        {% for subject in subject_count%}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="checkbox_{{subject.0}}" value="{{subject.0}}">
+          <label class="form-check-label" for="checkbox_{{subject.0}}">
+            <h4>({{subject.1}}) {{subject.0}}</h4>
+          </label>
+        </div>
+        {% endfor %}
         {% endif %}
+        </div>
+        <input class="subject-menu-filter" placeholder="Subject Filter" type="text">
+        <div class="row g-0" style="width:100%">
+          <button class="select_all_subject"><h4>Select All</h4></button>
+          <button class="cancel_all_subject"><h4>Cancel All</h4></button>
+          <button class="select_apply"><h4>Apply</h4></button>
+        </div>
       </div>
       <div class="vr"></div>
       <div class="search-result">
@@ -61,6 +65,7 @@
   var mod = "{{mod}}";
   document.querySelector("#search_mod_value").value = mod;
   var page;
+  var applied_subjects  = [];
 
   $(document).on("click", ".select_all_subject", function (e){
     const list = document.getElementsByClassName('form-check-input');
@@ -81,14 +86,16 @@
   });
   
   $(document).on("click", ".select_apply", function (e){
-    applied_subjects = []
+    applied_subjects = [];
     const list = document.getElementsByClassName('form-check-input');
     for(var i = 0; i < list.length; i++){
       if(list[i].getAttribute('type') == 'checkbox' && list[i].checked){
         applied_subjects.push(list[i].value);
       }
     }
-    console.log(applied_subjects)
+    if(applied_subjects.length != 0){
+      ajax_get()
+    }     
   });
 
   $('.subject-menu-filter').on("propertychange change keyup paste input", function (e){
@@ -144,21 +151,23 @@
     document.querySelector("#search_mod_value").value = 1;
     ajax_get();
   });
-
-  function ajax_get() {
+  function ajax_get() {    
+    console.log(applied_subjects);
     $.ajax({
       type: "get", //GET 방식 사용
       url : "{% url 'books:search' %}",
+      traditional: true,
       data : {
         page : page,
         perpage: perpage,
         sort: sort,
         search_input: search_input,
-        mod : mod
+        mod : mod,
+        applied_subjects : applied_subjects,
       },
       success: function (data) {
         document.querySelector("#table").innerHTML = data;
-      },
+      },  
       error: function(request, status, error){
         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);    
       },

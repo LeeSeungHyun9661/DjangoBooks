@@ -1,67 +1,56 @@
 {% extends 'base.html' %}
+{% block style %}
+<style>
+	.mainpage{
+		.container{
+		}
+	}
+</style>
+{% endblock %}
 {% block content %}
 {% load static %}
 <!-- 도서 상세 페이지 -->
-<section class="container" id="main">
-	<div class="row">
-		<div class="col-12">
-			<span class="main-title">도서 상세정보</span>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-12 book-items">
-			<div class="item">
-				<!-- 도서 이미지 -->
-				{% if book.img_url %}
-				<img src="{{book.img_url}}">
+<div class="mainpage" style="flex-direction: row;">
+	<section class="container" id="main">
+		<div class="row">
+			<div class="col-5">
+				{% if book.img_url_l %}
+				<img src="{{book.img_url_l}}">
 				{% else %}
 				<img src="{% static 'img/no_book_image.png' %}">
-				{% endif %}
-
-				<div class="metadata">
-					<!-- 도서 제목 -->
-					<div class="title">
-						{{book.title}}
-					</div>
-
-					<table class="bibil">
-						<tr>
-							<th>저자</th>
-							<td>{{book.author}}</td>
-							<th>출판사</th>
-							<td>{{book.publisher}}</td>
-							<th>출판년도</th>
-							<td>{{book.pub_date}}</td>
-						</tr>
-						<tr>
-							<th>주제</th>
-							<td>{{book.kdc_class_no}}</td>
-							<th>ISBN</th>
-							<td>{{book.isbn13}}</td>
-							<th></th>
-							<td></td>
-						</tr>
-					</table>
-					<div class="rate">
-					</div>
+				{% endif %}	
+			</div>
+			<div class="col-7">
+				<div>
+					<h3>{{book.title}}</h3>
+					<h5>{{book.subtitle}}</h5>
+					<hr>
+					{% for author_id, author in book.authors.items %}
+                  <button onclick="location.href ='{% url 'books:author' %}?author_id={{author_id}}';">{{author}}
+                  </button>
+                {% endfor %}
+					<h5>{{book.authors.1}}</h5>
+					<h5>{{book.publishers}}</h5>
+					<h5>{{book.publish_places}}</h5>
+					<h5>{{book.publish_date}}</h5>
+					<h5>{{book.languages}}</h5>
+					<h5>{{book.number_of_pages}}</h5>
+					<h5>{{book.physical_format}}</h5>
+					<h5>{{book.physical_dimensions}}</h5>
+					<h5>{{book.description}}</h5>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="content-container">
-		<div class="content-title">
-			소개글
+		<div class="hstack">
+			<div id="subjects-list">
+				{% for subjects_id, subject in book.subjects.items %}
+				<button type="button" class="btn btn-primary" onclick="location.href ='{% url 'books:subject' %}?subject={{subject}}';">{{subject}}</button>				
+				{% endfor %}
+			</div>
 		</div>
-		<div class="content-desc">
-			{% if book.description %}
-			{{book.description}}
-			{% else %}
-			도서 설명이 없습니다.
-			{% endif %}
-		</div>
+	</section>
+	<div class="recent_book" style="width:100px">
 	</div>
-</section>
+</div>
 <!-- 도서 관련 토론 -->
 {% endblock %}
