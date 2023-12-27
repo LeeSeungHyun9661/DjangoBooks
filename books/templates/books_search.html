@@ -79,7 +79,10 @@
           display: flex;
           flex-direction: column;
           padding: 10px;
-          width: 100%;
+					flex: 100%;
+					overflow: hidden;
+					position: relative;
+					width: 100%;
           flex: 1 1 auto;
           @media (max-width: 1024px) {
              padding: 5px;
@@ -97,11 +100,10 @@
                 .book-img-frame {
                    padding: 5px;
                    height: 297px;
-                   width: 40%;
                    vertical-align: middle;
                    @media (max-width: 1024px) {
                       padding: 3px;
-                      height: 150px;
+                      height: 100px;
                    }
                    img {
                       width: 100%;
@@ -110,8 +112,8 @@
                    }
                 }
                 .book-item-info {
+                  width:auto;
                    padding: 5px;
-                   width: 60%;
                    display: flex;
                    flex-direction: column;
                    .book-item-info-title {
@@ -133,13 +135,14 @@
                       flex-direction: row;
                       align-items: center;
                       align-self: stretch;
+                      
                       @media (max-width: 1024px) {
                       }
                       .author-list {
-                         width: max-content;
-                         display: inline-block;
-                         white-space: nowrap;
-                         text-overflow: clip;
+                        width: max-content;
+                        display: inline-block;
+                        white-space: nowrap;
+                        text-overflow: clip;
                       }
                       button {
                          padding: 0px;
@@ -282,7 +285,7 @@
       <div class="search-result">
         <div class="search-result-items">          
           <div id="table">
-          {% include 'books_table.html' %}
+          {% include 'books_search_table.html' %}
           </div>
         </div>
       </div>
@@ -411,6 +414,7 @@
       complete: function () {
         $("#loading_background").hide();
         $("#loading_spinner").hide();
+				setting_overflow_button();
         window.scrollTo(0, 0);
       }
     });
@@ -434,6 +438,10 @@
       }
     }
   }
+
+  window.onload = function(){
+   setting_overflow_button();
+   }
 
   window.onresize = function(event){
     setting_overflow_button();

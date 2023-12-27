@@ -144,7 +144,7 @@ class books_search(View):
 
         # Ajax 요청인지 확인
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
-            self.template_name = 'books_table.html'
+            self.template_name = 'books_search_table.html'
             # 아이템 정렬 기준 선택 
             if sort == 0:
                 books = books
