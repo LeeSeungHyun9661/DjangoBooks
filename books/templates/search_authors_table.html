@@ -85,21 +85,6 @@
           <div class="col-3">
             <div class="book-img-frame">
               <img class="book-img" id="book-img" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';" src="{%if book.img_url_l%}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png.jpg' %}{% endif %}" />
-              <!-- 이미지 설정 기능 -->
-              <script>
-                var src;
-                img = new Image();
-                img.onload = function() {
-                  if (this.width == 1 && this.height == 1){
-                    src ="{% static 'img/no_book_image.png' %}";
-                  }
-                  else{
-                    
-                  }
-                  document.querySelector("#book-img").src = src;
-                }
-                img.src = "{{book.img_url_l}}";
-              </script>
             </div>
           </div>
           <div class="col-9">

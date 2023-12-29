@@ -1,0 +1,499 @@
+{% extends 'base.html' %}
+{% block style %}
+  <style>
+    .mainpage {
+      .search-nav {
+        max-width: 100%;
+      }
+
+      .search-main {
+        width: 100%;
+
+        h3 {
+          margin: 0;
+          font-size: 20px;
+
+          @media (max-width: 1024px) {
+            font-size: 15px;
+          }
+        }
+
+        h4 {
+          margin: 0;
+          font-size: 18px;
+
+          @media (max-width: 1024px) {
+            font-size: 10px;
+          }
+        }
+
+        .search-menu {
+          width: 200px;
+
+          @media (max-width: 1024px) {
+            width: 100px;
+          }
+
+          .search-menu-checkboxlist {
+            padding: 5px;
+            height: 600px;
+            width: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            @media (max-width: 1024px) {
+              padding: 3px;
+              height: 300px;
+              width: 100px;
+            }
+
+            .form-check {
+              top: 50%;
+              left: 50%;
+              height: auto;
+              width: auto;
+
+              @media (max-width: 1024px) {
+                height: auto;
+              }
+
+              h4 {
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+
+          .subject-menu-filter {
+            font-size: 20px;
+            width: 100%;
+            height: auto;
+
+            @media (max-width: 1024px) {
+              font-size: 10px;
+            }
+          }
+
+          .subject-menu-filter::placeholder {
+            font-size: 20px;
+          }
+
+          @media (max-width: 1024px) {
+            .subject-menu-filter::placeholder {
+              font-size: 10px;
+            }
+          }
+        }
+
+        .search-result {
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          flex: 100%;
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          flex: 1 1 auto;
+
+          @media (max-width: 1024px) {
+            padding: 5px;
+          }
+
+          .search-result-items #table {
+            width: 100%;
+
+            .book-item {
+              padding: 10px;
+              margin: 0;
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+
+              .book-img-frame {
+                padding: 5px;
+                aspect-ratio: 1/1.5;
+                max-height:300px;
+                vertical-align: middle;
+
+                @media (max-width: 1024px) {
+                  padding: 3px;
+                }
+
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
+                }
+              }
+
+              .book-item-info {
+                width: auto;
+                padding: 5px;
+                display: flex;
+                flex-direction: column;
+
+                .book-item-info-title {
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
+
+                  h3,
+                  h4 {
+                    width: 100%;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    overflow: hidden;
+                  }
+                }
+
+                .book-item-info-author {
+                  padding: 3px;
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  align-self: stretch;
+
+                  @media (max-width: 1024px) {}
+
+                  .author-list {
+                    width: max-content;
+                    display: inline-block;
+                    white-space: nowrap;
+                    text-overflow: clip;
+                  }
+
+                  button {
+                    padding: 0;
+                  }
+                }
+              }
+            }
+          }
+
+          .text-center {
+            width: 100%;
+          }
+
+          .container .row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+
+            img {
+              padding: 5px;
+              object-fit: contain;
+              height: 297px;
+              width: 210px;
+
+              @media (max-width: 1024px) {
+                padding: 3px;
+                height: 150px;
+                width: 100px;
+              }
+            }
+
+            @media (max-width: 1024px) {
+              grid-template-columns: repeat(3, 1fr);
+            }
+          }
+
+          .search-result-text {
+            display: flex;
+            flex-direction: row;
+
+            h5 {
+              align-self: flex-end;
+              margin: 0 10px 0 0;
+              font-size: 20px;
+            }
+
+            h4 {
+              align-self: flex-end;
+              margin: 0;
+              font-size: 25px;
+            }
+
+            @media (max-width: 1024px) {
+              font-size: 10px;
+
+              h5 {
+                font-size: 13px;
+              }
+
+              h4 {
+                margin: 0;
+                font-size: 15px;
+              }
+            }
+          }
+
+          .dropdown-menu {
+            @media (max-width: 1024px) {
+              width: 30px;
+              padding: 0;
+              font-size: 10px;
+            }
+          }
+
+          .dropdown button {
+            @media (max-width: 1024px) {
+              width: 100%;
+              padding: 5px;
+              font-size: 10px;
+            }
+          }
+
+          .btn-group button {
+            svg {
+              width: 15px;
+              height: 15px;
+            }
+
+            @media (max-width: 1024px) {
+              width: 100%;
+              padding: 5px;
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  {% load static %}
+  <hr>
+  <div class="mainpage" style="flex-direction: column;">
+    <!-- 검색 조건 -->
+    <div class="search-nav">
+      <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-current="page" href="">Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'books:search_authors' %}?search_input={{search_input}}">Authors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'books:search_publishers' %}?search_input={{search_input}}">Publish</a>
+        </li>
+      </ul>
+    </div>
+    <!-- 주제 검색 옵션 -->
+    <div class="search-main">
+      <div class="d-flex" style="width:auto;height: auto">
+        <div class="search-menu">
+          <h3 class="subject-menu-title">Subject</h3>
+          <div class="search-menu-checkboxlist">
+            {% if subject_count %}
+              {% for subject in subject_count%}
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="checkbox_{{subject.0}}" value="{{subject.0}}">
+                  <label class="form-check-label" for="checkbox_{{subject.0}}">
+                    <h4>({{subject.1}})
+                      {{subject.0}}</h4>
+                  </label>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <input class="subject-menu-filter" placeholder="Subject Filter" type="text">
+          <div class="row g-0" style="width:100%">
+            <button class="select_all_subject">
+              <h4>Select All</h4>
+            </button>
+            <button class="cancel_all_subject">
+              <h4>Cancel All</h4>
+            </button>
+            <button class="select_apply">
+              <h4>Apply</h4>
+            </button>
+          </div>
+        </div>
+        <div class="vr"></div>
+        <div class="search-result">
+          <div class="search-result-items">
+            <div id="table">
+              {% include 'books_search_table.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var img;
+    var perpage = "{{perpage}}";
+    document
+      .querySelector("#search_perpage_value")
+      .value = perpage;
+    var sort = "{{sort}}";
+    document
+      .querySelector("#search_sort_value")
+      .value = sort;
+    var search_input = "{{search_input}}";
+    var mod = "{{mod}}";
+    document
+      .querySelector("#search_mod_value")
+      .value = mod;
+    var page;
+    var applied_subjects = [];
+
+    $(document).on("click", ".select_all_subject", function (e) {
+      const list = document.getElementsByClassName('form-check-input');
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].getAttribute('type') == 'checkbox') {
+          list[i].checked = true;
+        }
+      }
+    });
+
+    $(document).on("click", ".cancel_all_subject", function (e) {
+      const list = document.getElementsByClassName('form-check-input');
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].getAttribute('type') == 'checkbox') {
+          list[i].checked = false;
+        }
+      }
+    });
+
+    $(document).on("click", ".select_apply", function (e) {
+      applied_subjects = [];
+      const list = document.getElementsByClassName('form-check-input');
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].getAttribute('type') == 'checkbox' && list[i].checked) {
+          applied_subjects.push(list[i].value);
+        }
+      }
+      if (applied_subjects.length != 0) {
+        ajax_get()
+      }
+    });
+
+    $('.subject-menu-filter').on("propertychange change keyup paste input", function (e) {
+      var text = $('.subject-menu-filter').val()
+      const list = document.getElementsByClassName('form-check-input');
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].value.match(new RegExp(text, 'i')) == null) {
+          list[i].parentNode.style.display = "none";
+        } else {
+          list[i].parentNode.style.display = "block";
+        }
+      }
+    });
+    //페이지네이션 버튼 클릭에 따른 결과 전달
+    $(document).on("click", ".page-item", function (e) {
+      console.log($(this));
+      if ($(this).text().trim() == 'First') {
+        num_pages = 1;
+      } else if ($(this).text().trim() == 'Last') {
+        //마지막 페이지인 경우 : 페이지 끝번
+        num_pages = parseInt($(this).attr("value"));
+      } else {
+        //해당 페이지 : 페이지 번호
+        num_pages = parseInt($(this).text());
+      }
+      page = num_pages;
+      console.log("page :" + page);
+      ajax_get();
+    });
+
+    $(document).on("click", ".dropdown-item", function (e) {
+      e.preventDefault();
+      perpage = $(this).data("perpage"); //GET 방식에 페이지 번호를 넣어서 전송
+      sort = $(this).data("sort"); //GET 방식
+      document
+        .querySelector("#search_perpage_value")
+        .value = $(this).data("perpage");
+      document
+        .querySelector("#search_sort_value")
+        .value = $(this).data("sort");
+      page = 1;
+      ajax_get();
+    });
+
+    $(document).on("click", "#mod-0", function (e) {
+      e.preventDefault();
+      mod = 0;
+      document
+        .querySelector("#search_mod_value")
+        .value = 0;
+      ajax_get();
+    });
+
+    $(document).on("click", "#mod-1", function (e) {
+      e.preventDefault();
+      mod = 1;
+      document
+        .querySelector("#search_mod_value")
+        .value = 1;
+      ajax_get();
+    });
+
+    function ajax_get() {
+      console.log(applied_subjects);
+      $.ajax({
+        type: "get", //GET 방식 사용
+        url: "{% url 'books:search' %}",
+        traditional: true,
+        data: {
+          page: page,
+          perpage: perpage,
+          sort: sort,
+          search_input: search_input,
+          mod: mod,
+          applied_subjects: applied_subjects
+        },
+        success: function (data) {
+          document
+            .querySelector("#table")
+            .innerHTML = data;
+        },
+        error: function (request, status, error) {
+          console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        },
+        beforeSend: function () {
+          $("#loading_background").show();
+          $("#loading_spinner").show();
+        },
+        complete: function () {
+          $("#loading_background").hide();
+          $("#loading_spinner").hide();
+          setting_overflow_button();
+          window.scrollTo(0, 0);
+        }
+      });
+    }
+
+    function setting_overflow_button() {
+      console.log("Start_Checking_overFlow")
+      const author_frames = document.getElementsByClassName("book-item-info-author");
+      const author_lists = document.getElementsByClassName("author-list");
+
+      for (let i = 0; i < author_frames.length; i++) {
+        console.log(i + "||scrollWidth" + author_frames[i].scrollWidth + " // offsetWidth" + author_lists[i].offsetWidth);
+        const modal_button = author_frames[i].querySelector(".btn");
+        if (author_lists[i].scrollWidth > author_frames[i].offsetWidth) {
+          console.log(i + "||scrollWidth" + author_frames[i].scrollWidth + " // offsetWidth" + author_lists[i].offsetWidth);
+          modal_button.style.display = "block";
+          author_lists[i].style.overflow = "hidden";
+        } else {
+          modal_button.style.display = "none";
+          author_lists[i]
+            .style
+            .removeProperty("overflow");
+        }
+      }
+    }
+
+    window.onload = function () {
+      setting_overflow_button();
+    }
+
+    window.onresize = function (event) {
+      setting_overflow_button();
+    }
+  </script>
+
+{% endblock %}

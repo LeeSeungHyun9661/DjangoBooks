@@ -10,7 +10,6 @@ import json
 
 # 메인 페이지 뷰 클래스
 class mainpage(View):
-    print("시작")
     template_name = 'mainpage.html'
     def get(self,request):
         register_form = RegistForm()
@@ -28,8 +27,6 @@ class mainpage(View):
             'bestsellers' : bestsellers,
             'newReleases' : newReleases,
         }
-        
-        print("끝")
         return render(request, self.template_name, self.context)
     
     def post(self,request):

@@ -8,58 +8,58 @@ from datetime import datetime
 from operator import itemgetter, attrgetter
 import operator
 
-# Create your views here.
-class books_list(View):
-    context = {}
-    template_name = 'books_list.html'
+# # Create your views here.
+# class list(View):
+#     context = {}
+#     template_name = 'list.html'
 
-    def get(self,request):    
-        books = Book.objects.all()
-        page = int(request.GET.get('page', 1)) 
-        perpage = int(request.GET.get('perpage',10)) 
-        sort = int(request.GET.get('sort', 0)) 
-        search_input = request.GET.get('search_input',"")
+#     def get(self,request):    
+#         books = Book.objects.all()
+#         page = int(request.GET.get('page', 1)) 
+#         perpage = int(request.GET.get('perpage',10)) 
+#         sort = int(request.GET.get('sort', 0)) 
+#         search_input = request.GET.get('search_input',"")
 
-        # ajax로 통신 : 페이지네이션 또는 검색
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
-            self.template_name = 'books_table.html'
-            if search_input != "":
-                books = books.filter( Q(TITLE_NM__icontains = search_input) | Q(AUTHR_NM__icontains = search_input) | Q(PUBLISHER_NM__icontains = search_input));
+#         # ajax로 통신 : 페이지네이션 또는 검색
+#         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
+#             self.template_name = 'books_table.html'
+#             if search_input != "":
+#                 books = books.filter( Q(TITLE_NM__icontains = search_input) | Q(AUTHR_NM__icontains = search_input) | Q(PUBLISHER_NM__icontains = search_input));
               
-            if sort == 0:
-                books = books
-            elif sort == 1:
-                books = books 
-            elif sort == 2:
-                books = books.order_by('PBLICTE_DE') 
-            elif sort == 3:
-                books = books.order_by('-PBLICTE_DE') 
-            else :
-                books = books.order_by('TITLE_NM') 
-        # 페이지 선택                
-        paginator = CachingPaginator(books, perpage)        
-        books_list = paginator.get_page(page)
+#             if sort == 0:
+#                 books = books
+#             elif sort == 1:
+#                 books = books 
+#             elif sort == 2:
+#                 books = books.order_by('PBLICTE_DE') 
+#             elif sort == 3:
+#                 books = books.order_by('-PBLICTE_DE') 
+#             else :
+#                 books = books.order_by('TITLE_NM') 
+#         # 페이지 선택                
+#         paginator = Paginator(books, perpage)        
+#         books_list = paginator.get_page(page)
 
-        left_index = int(page) - 2
-        if left_index < 2 :
-            left_index=1
+#         left_index = int(page) - 2
+#         if left_index < 2 :
+#             left_index=1
 
-        right_index = int(page) + 2
-        if right_index > paginator.num_pages :
-            right_index = paginator.num_pages
+#         right_index = int(page) + 2
+#         if right_index > paginator.num_pages :
+#             right_index = paginator.num_pages
 
-        page_range = range(left_index,right_index+1)
+#         page_range = range(left_index,right_index+1)
 
-        self.context = {"books_list":books_list,"perpage":perpage,"sort":sort,"search_input":search_input,"page_range":page_range}
-        return render(request, self.template_name, self.context)
+#         self.context = {"books_list":books_list,"perpage":perpage,"sort":sort,"search_input":search_input,"page_range":page_range}
+#         return render(request, self.template_name, self.context)
     
-    def post(self,request):
-        return render(request, self.template_name, self.context)
+#     def post(self,request):
+#         return render(request, self.template_name, self.context)
 
 # 도서 상세 페이지
-class books_detail(View):
+class detail(View):
     context={}
-    template_name = 'books_detail.html'
+    template_name = 'detail.html'
 
     def get(self,request):         
         # 도서 isbn13 받아오기
@@ -79,9 +79,9 @@ class books_detail(View):
         return redirect("books:list")
     
 # 도서 상세 페이지
-class books_author(View):
+class author(View):
     context={}
-    template_name = 'books_author.html'
+    template_name = 'author.html'
     def get(self,request):         
         # 도서 isbn13 받아오기
         author_id = request.GET.get('author_id')
@@ -95,9 +95,9 @@ class books_author(View):
     
     
 # 도서 상세 페이지
-class books_subject(View):
+class subject(View):
     context={}
-    template_name = 'books_subject.html'
+    template_name = 'subject.html'
     def get(self,request):         
         # 도서 isbn13 받아오기
         subject = request.GET.get('subject')
@@ -111,9 +111,9 @@ class books_subject(View):
     
   
 # 검색 클래스
-class books_search(View):
+class search_books(View):
     context = {}
-    template_name = 'books_search.html'
+    template_name = 'search_books.html'
     def get(self,request):
         page = int(request.GET.get('page', 1)) 
         perpage = int(request.GET.get('perpage',10)) 
@@ -124,7 +124,7 @@ class books_search(View):
 
         #검색어가 있을 경우 - 해당 검색어로 필터링
         if search_input: 
-            books = Book.objects.filter(Q(title__icontains = search_input) | Q(authors__icontains = search_input) | Q(publishers__icontains = search_input))
+            books = Book.objects.filter(Q(title__icontains = search_input))
         else :
             books = Book.objects.all()
 
@@ -144,7 +144,7 @@ class books_search(View):
 
         # Ajax 요청인지 확인
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
-            self.template_name = 'books_search_table.html'
+            self.template_name = 'search_books_table.html'
             # 아이템 정렬 기준 선택 
             if sort == 0:
                 books = books
@@ -188,3 +188,40 @@ class books_search(View):
     def post(self,request):
         return render(request, self.template_name, self.context)
     
+# 검색 클래스
+class search_authors(View):    
+    context = {}
+    template_name = 'search_authors.html'
+    def get(self,request):
+        search_input = request.GET.get('search_input')
+
+        if search_input: 
+            Authors = Author.objects.filter(Q(name__icontains = search_input) | Q(personal_name__icontains = search_input))
+        else :
+            Authors = Author.objects.all()
+
+        self.context = {
+            "Authors":Authors,
+        }
+        return render(request, self.template_name, self.context)        
+    def post(self,request):
+        return render(request, self.template_name, self.context)
+    
+    
+class search_publishers(View):    
+    context = {}
+    template_name = 'search_publishers.html'
+    def get(self,request):
+        search_input = request.GET.get('search_input')
+
+        # if search_input: 
+        #     books = Book.objects.filter(Q(publisher__icontains = search_input))
+        # else :
+        #     Authors = Author.objects.all()
+
+        # self.context = {
+        #     "Authors":Authors,
+        # }
+        return render(request, self.template_name, self.context)        
+    def post(self,request):
+        return render(request, self.template_name, self.context)

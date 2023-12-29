@@ -50,6 +50,14 @@ body {
    @media (max-width: 1024px) {
       padding : 5px;
    }
+   hr{      
+      margin-left: 150px;
+      margin-right: 150px;
+      @media (max-width: 1024px) {
+         margin-left: 3px;
+         margin-right: 3px;
+      }
+   }
 }
 
 div {
