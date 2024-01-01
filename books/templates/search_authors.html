@@ -103,73 +103,79 @@
           .search-result-items #table {
             width: 100%;
 
-            .book-item {
-              padding: 10px;
-              margin: 0;
+            .search-result-list{
               display: flex;
-              flex-direction: row;
-              width: 100%;
-
-              .book-img-frame {
-                padding: 5px;
-                aspect-ratio: 1/1.5;
-                max-height:300px;
-                vertical-align: middle;
-
-                @media (max-width: 1024px) {
-                  padding: 3px;
-                }
-
-                img {
-                  width: 100%;
-                  height: 100%;
-                  object-fit: contain;
-                }
-              }
-
-              .book-item-info {
-                width: auto;
-                padding: 5px;
+              flex-direction: column;
+              
+              .author-item {
+                padding: 10px;
+                margin: 0;
                 display: flex;
-                flex-direction: column;
-
-                .book-item-info-title {
-                  display: flex;
-                  flex-direction: column;
-                  width: 100%;
-
-                  h3,
-                  h4 {
+                flex-direction: row;
+                width: 100%;
+  
+                .author-img-frame {
+                  width:30%;
+                  padding: 5px;
+                  vertical-align: middle;
+  
+                  @media (max-width: 1024px) {
+                    padding: 3px;
+                  }
+  
+                  img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                  }
+                }
+  
+                .author-info {
+                  width: 70%;
+                  padding: 5px;
+  
+                  h3, h4 {
                     width: 100%;
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 1;
                     overflow: hidden;
                   }
-                }
 
-                .book-item-info-author {
-                  padding: 3px;
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  align-self: stretch;
-
-                  @media (max-width: 1024px) {}
-
-                  .author-list {
-                    width: max-content;
-                    display: inline-block;
-                    white-space: nowrap;
-                    text-overflow: clip;
-                  }
-
-                  button {
-                    padding: 0;
+                  .author-books{
+                    width: 100%;
+                    .frame {
+                      width: 100%;
+                      padding: 0;
+                      touch-action: manipulation;
+                      .slidee {
+                         list-style: none;
+                         margin: 0;
+                         padding: 0;
+                         height: 100%;
+                      }
+                      .slidee li {
+                         float: left;
+                         margin: 0 5px 0 0;
+                         padding: 10px;
+                         height: 100%;
+                      }
+                      .slidee li img {
+                         height: 150px;
+                         width: 100px;
+                         object-fit: contain;
+                         @media (max-width: 1024px) {
+                            height:75px;
+                            width: 50px;
+                         }
+                      }
+                   }
                   }
                 }
               }
             }
+
+
           }
 
           .text-center {
@@ -282,35 +288,6 @@
     <!-- 주제 검색 옵션 -->
     <div class="search-main">
       <div class="d-flex" style="width:auto;height: auto">
-        <div class="search-menu">
-          <h3 class="subject-menu-title">Subject</h3>
-          <div class="search-menu-checkboxlist">
-            {% if subject_count %}
-              {% for subject in subject_count%}
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="checkbox_{{subject.0}}" value="{{subject.0}}">
-                  <label class="form-check-label" for="checkbox_{{subject.0}}">
-                    <h4>({{subject.1}})
-                      {{subject.0}}</h4>
-                  </label>
-                </div>
-              {% endfor %}
-            {% endif %}
-          </div>
-          <input class="subject-menu-filter" placeholder="Subject Filter" type="text">
-          <div class="row g-0" style="width:100%">
-            <button class="select_all_subject">
-              <h4>Select All</h4>
-            </button>
-            <button class="cancel_all_subject">
-              <h4>Cancel All</h4>
-            </button>
-            <button class="select_apply">
-              <h4>Apply</h4>
-            </button>
-          </div>
-        </div>
-        <div class="vr"></div>
         <div class="search-result">
           <div class="search-result-items">
             <div id="table">

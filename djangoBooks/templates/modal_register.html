@@ -7,7 +7,7 @@
       </div>
 
       <div class="modal-body" style="text-align: center;">
-        <form method="post" id="regist">
+        <form method="post" id="regist-form">
           {% csrf_token %}
           {% for field in register_form %}
             {{ field.label_tag }}
@@ -29,7 +29,7 @@
 </div>
 
 <script>
-  $('#regist').on('submit',function(){
+  $('#regist-form').on('submit',function(){
       event.preventDefault();
       form_array  = $(this).serialize();
       $.ajax({

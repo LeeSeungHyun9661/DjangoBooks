@@ -10,6 +10,7 @@ import json
 
 # 메인 페이지 뷰 클래스
 class mainpage(View):
+    context = {}
     template_name = 'mainpage.html'
     def get(self,request):
         register_form = RegistForm()

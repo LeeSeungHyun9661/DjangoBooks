@@ -4,123 +4,62 @@
     <h5>result of</h5>
     <h4>{{search_input}}</h4>
     <h5>
-      {% if books_list %}
-        |
-        {{count}}
-        of Result is Found{%else%}
-        | Nothing Found!{%endif%}</h5>
+    {% if authors_list %} | {{count}} of Result is Found{%else%} | Nothing Found!{%endif%}
+    </h5>
     {% endif %}
 </div>
-<div style="display:flex;">
-  <div class="hstack gap-1" style="margin-left: auto;">
-    <!-- 페이지당 도서 아이템 수 -->
-    <div class="p-0 ms-auto text-center">
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{perpage}}
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <a class="dropdown-item {% if perpage == 5 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="5">5</a>
-          </li>
-          <li>
-            <a class="dropdown-item {% if perpage == 10 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="10">10</a>
-          </li>
-          <li>
-            <a class="dropdown-item {% if perpage == 25 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="25">25</a>
-          </li>
-          <li>
-            <a class="dropdown-item {% if perpage == 50 %}disabled{% endif %}" data-sort="{{sort}}" data-perpage="50">50</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="vr"></div>
-    <!-- 검색 조건 -->
-    <div class="p-0 text-center">
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {%if sort == 0 %}Sort by{% elif sort == 1 %}Relevence{% elif sort == 2 %}Newest{% elif sort == 3 %}Oldest{% elif sort == 4 %}A-Z{%endif%}
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item{%if sort == 1 %} disabled{% endif %}" data-sort="1" data-perpage="{{perpage}}">Relevence</a>
-            </li>
-            <li>
-              <a class="dropdown-item{%if sort == 2 %} disabled{% endif %}" data-sort="2" data-perpage="{{perpage}}">Newest</a>
-            </li>
-            <li>
-              <a class="dropdown-item{%if sort == 3 %} disabled{% endif %}" data-sort="3" data-perpage="{{perpage}}">Oldest</a>
-            </li>
-            <li>
-              <a class="dropdown-item{%if sort == 4 %} disabled{% endif %}" data-sort="4" data-perpage="{{perpage}}">A-Z</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="vr"></div>
-      <!-- 검색 그리드 -->
-      <div class="p-0 text-center">
-        <div class="btn-group" role="group" aria-label="Small button group">
-          <button type="button" class="btn btn-outline-secondary {%if mod == 0 %}active{% endif %}" id="mod-0" data-mod="0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewbox="0 0 16 16">
-              <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/>
-            </svg>
-          </button>
-          <button type="button" class="btn btn-outline-secondary {%if mod == 1 %}active{% endif %}" id="mod-1" data-mod="1">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-justify" viewbox="0 0 16 16">
-              <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  {%if books_list%}
-    <!-- 도서 아이템 모드가 리스트 -->
-    {% if mod == 0 %}
-      {% for book in books_list %}
-        <!-- 리스트 형식 아이템 -->
-        <div class="book-item">
-          <div class="col-3">
-            <div class="book-img-frame">
-              <img class="book-img" id="book-img" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';" src="{%if book.img_url_l%}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png.jpg' %}{% endif %}" />
-            </div>
+<div class="search-result-list" style="display:flex;">
+  {%if authors_list%}
+    {% for author in authors_list %}
+      <div class="author-item">
+        <div class="author-img-frame">
+          <img src="{{author.img}}"/>          
+        </div>        
+        <div class="vstack author-info">
+          {% comment %} 작가 정보 {% endcomment %}
+          <div class="p-2">
+            <h3 class="author-info-name">{{author.name}}</h3>
+            <h3>{%if location %}{{author.location}}{% endif %}</h3>
+            <h3>{%if bio %}{{author.bio}}{% endif %}</h3>
+            <h3>{%if birth_date %}{{author.birth_date}}{% endif %}</h3>
+            <h3>{%if death_date %}{{author.death_date}}{% endif %}</h3>          
           </div>
-          <div class="col-9">
-            <div class="book-item-info">
-              <div class="book-item-info-title">
-                <h3 onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';">{{book.title}}</h3>
-                {% if book.subtitle%}
-                  <h4>{{book.subtitle}}</h4>
-                {% endif %}
-              </div>
-              <div class="book-item-info-author">              
-                <div class="author-list">
-                {% if book.authors%}
-                  {% for author_id, author in book.authors.items %}
-                  <button onclick="location.href ='{% url 'books:author' %}?author_id={{author_id}}';"><h4>{{author}}</h4></button>
-                  {% endfor %}
-                {% endif %}              
-                </div>
-                <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#authorModal" style="text-align:right; width:auto; margin:0px" value="{{book.authors|safe}}"> + </button>
-              </div>
-            </div>
+          {% comment %} 작가의 도서 목록 {% endcomment %}
+          <div class="author-books mt-auto">       
+            <hr>   
+            <div id="frame-{{author.author_id}}" class="frame">
+              <ul class="slidee">
+                {% for book in author.books %}
+                <li>
+                  <a href={% url 'books:detail' %}?isbn={{book.isbn}}>
+                    <img src="{{book.img_url_s}}">
+                  </a>
+                </li>                  
+                {% endfor %}
+              </ul>
+            </div>              
+            <script>
+              var sly = new Sly($('#frame-{{author.author_id}}'), {
+                horizontal: 1, // required
+                itemNav: 'basic', // required
+                smart: 1,
+                mouseDragging: 1,
+                touchDragging: 1,
+                releaseSwing: 1,
+                scrollSource: null,
+                speed: 300,
+                elasticBounds: 1,
+                dragHandle: 1,
+                dynamicHandle: 1,
+                clickBar: 1
+              }).init();
+            </script>
           </div>
-
-
-       </div>
-      {% endfor %}
-      <!-- 그리드 형식 아이템 -->
-    {% else%}
-      <div class="container text-center p-10">
-        <div class="row row-cols-5">
-          {% for book in books_list %}
-            <img class="book-img" src="{% if book.img_url_l%}{{book.img_url_l}}{% else %}{% static 'img/no_book_image.png' %}{% endif %}" onclick="location.href ='{% url 'books:detail' %}?isbn={{book.isbn}}';"/>
-          {% endfor %}
         </div>
       </div>
-    {% endif %}
+      
+    {% endfor %}
+    <!-- 그리드 형식 아이템 -->
   {% else %}
   {% comment %} 도서 리스트가 없음 - 검색 결과 없음 {% endcomment %}
   {% endif %}
@@ -128,7 +67,7 @@
   <hr style="margin:0;">
   <!-- 페이지네이션 -->
   <div class="text-center">
-    <ul class="pagination justify-content-center mb-3">
+    <ul class="pagination justify-content-center">
       <!-- 페이지네이션 : 첫 페이지-->
       {% if books_list.has_previous %}
         <li class="page-item">
@@ -140,7 +79,7 @@
         <!-- 페이지네이션 : 각 페이지 -->
         {% for page in page_range %}
           {% if page == books_list.number%}
-            <li class="page-item d-none d-md-inline-block">
+            <li class="page-item d-md-inline-block">
               <a class="page-link active" href="#">{{page}}</a>
             </li>
             {%else%}

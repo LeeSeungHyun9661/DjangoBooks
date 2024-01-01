@@ -18,7 +18,7 @@
     <!-- ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <!-- Javascript-->
-    <script src="{% static 'js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
     <!-- flipster js -->
     <script src="{% static 'js/jquery.flipster.min.js' %}"></script>
     <!-- sly js -->
@@ -59,8 +59,14 @@
   <body style="margin-top: 60px;">
     <!-- 검색창 -->
     <div class="search">
-      <form class="input-group" action="{% url 'books:search_books' %}" method="GET">
-        <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search" value="{%if search_input %}{{search_input}}{%endif%}">
+      {% if request.path == '/books/search/author' %}
+      <form class="input-group" action = {% url 'books:search_authors' %} method="GET">
+      {% elif  request.path == '/books/search/publisher' %}
+      <form class="input-group" action = {% url 'books:search_publishers' %} method="GET">      
+      {% else %}
+      <form class="input-group" action = {% url 'books:search_books' %} method="GET">           
+      {% endif %}      
+        <input type="text" class="form-control" name="search_input" id="search_input" placeholder="Search" aria-describedby="button-search" value={%if search_input %}{{search_input}}{%endif%}>
         <input type="hidden" name="perpage" id ="search_perpage_value" value={%if prepage %}{{prepage}}{%else%}"10"{%endif%}>
         <input type="hidden" name="sort" id ="search_sort_value" value={%if sort %}{{sort}}{%else%}"0"{%endif%}>
         <input type="hidden" name="mod" id ="search_mod_value" value={%if mod %}{{mod}}{%else%}"0"{%endif%}>          
@@ -71,7 +77,8 @@
     </div>
     <!-- 내용 -->    
     <hr>
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
     <!-- 로딩 화면 -->
     {% include 'loading_screen.html' %}
 

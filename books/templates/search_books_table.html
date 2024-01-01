@@ -103,12 +103,10 @@
                   {% endfor %}
                 {% endif %}              
                 </div>
-                <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#authorModal" style="text-align:right; width:auto; margin:0px" value="{{book.authors|safe}}"> + </button>
+                <button class="btn ms-auto modal-button" data-bs-toggle="modal" data-bs-target="#buttonModal" style="text-align:right; width:auto; margin:0px" value="{{book.authors|safe}}"> + </button>
               </div>
             </div>
           </div>
-
-
        </div>
       {% endfor %}
       <!-- 그리드 형식 아이템 -->
@@ -128,7 +126,7 @@
   <hr style="margin:0;">
   <!-- 페이지네이션 -->
   <div class="text-center">
-    <ul class="pagination justify-content-center mb-3">
+    <ul class="pagination justify-content-center">
       <!-- 페이지네이션 : 첫 페이지-->
       {% if books_list.has_previous %}
         <li class="page-item">
@@ -140,7 +138,7 @@
         <!-- 페이지네이션 : 각 페이지 -->
         {% for page in page_range %}
           {% if page == books_list.number%}
-            <li class="page-item d-none d-md-inline-block">
+            <li class="page-item d-md-inline-block">
               <a class="page-link active" href="#">{{page}}</a>
             </li>
             {%else%}

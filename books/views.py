@@ -169,7 +169,7 @@ class search_books(View):
         if left_index < 2 :
             left_index=1
 
-        right_index = int(page) + 2
+        right_index = left_index + 4
         if right_index > paginator.num_pages :
             right_index = paginator.num_pages
         page_range = range(left_index,right_index+1)
@@ -193,15 +193,40 @@ class search_authors(View):
     context = {}
     template_name = 'search_authors.html'
     def get(self,request):
+        page = int(request.GET.get('page', 1)) 
         search_input = request.GET.get('search_input')
 
         if search_input: 
-            Authors = Author.objects.filter(Q(name__icontains = search_input) | Q(personal_name__icontains = search_input))
+            authors = Author.objects.filter(Q(name__icontains = search_input) | Q(personal_name__icontains = search_input))
         else :
-            Authors = Author.objects.all()
+            authors = Author.objects.all()
 
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  
+            self.template_name = 'search_authors_table.html'
+
+
+
+        paginator = Paginator(authors, 15)
+        authors_list = paginator.get_page(page)
+
+        left_index = int(page) - 2
+        if left_index < 2 :
+            left_index=1
+
+        right_index = left_index + 4
+        if right_index > paginator.num_pages :
+            right_index = paginator.num_pages
+        page_range = range(left_index,right_index+1)
+
+        for author in authors_list:
+            books = Book.objects.filter(Q(authors__has_key = author.author_id))
+            author.books = books
+            
         self.context = {
-            "Authors":Authors,
+            "authors_list":authors_list,
+            "search_input":search_input,
+            "count":len(authors),
+            "page_range":page_range,
         }
         return render(request, self.template_name, self.context)        
     def post(self,request):
